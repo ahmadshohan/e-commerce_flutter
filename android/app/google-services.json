@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "591237299271",
+    "firebase_url": "https://fashion-shop-51f11.firebaseio.com",
+    "project_id": "fashion-shop-51f11",
+    "storage_bucket": "fashion-shop-51f11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591237299271:android:1a171203f6d4218caf0562",
+        "android_client_info": {
+          "package_name": "com.shohan.fashinshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591237299271-0493lkclr510ncc1c491ig8g2ca08kg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBytkDninh6DCJW4I0Z9Gqnxf3AfoUGEto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591237299271-0493lkclr510ncc1c491ig8g2ca08kg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,81 @@
+name: fashinshop
+description: Fashion Shop application.
+publish_to:
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.3
+  carousel_pro: ^1.0.0
+  provider: ^3.0.0
+  intl: ^0.15.8
+  http: ^0.12.0+2
+  shared_preferences: ^0.5.3+1
+  firebase_core: ^0.4.5
+  firebase_auth: ^0.16.1
+  cloud_firestore: ^0.13.7
+  google_sign_in: ^4.5.1
+  toast: ^0.1.5
+  image_picker: ^0.6.7+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  assets:
+    - images/m1.jpeg
+    - images/m2.jpg
+    - images/m3.jpeg
+    - images/m4.jpeg
+    - images/m5.jpeg
+    - images/m6.jpg
+    - images/facebook.png
+    - images/apple.png
+    - images/google.png
+    - images/cats/accessories.png
+    - images/cats/dress.png
+    - images/cats/formal.png
+    - images/cats/informal.png
+    - images/cats/jeans.png
+    - images/cats/shoe.png
+    - images/cats/tshirt.png
+    - images/products/blazer1.jpeg
+    - images/products/blazer2.jpeg
+    - images/products/dress1.jpeg
+    - images/products/dress2.jpeg
+    - images/products/hills1.jpeg
+    - images/products/hills2.jpeg
+    - images/products/pants1.jpg
+    - images/products/pants2.jpeg
+    - images/products/shoe1.jpg
+    - images/products/skt1.jpeg
+    - images/products/skt2.jpeg
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Bold.ttf
+          weight: 700
+    - family: Anton
+      fonts:
+        - asset: fonts/Anton-Regular.ttf
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+
