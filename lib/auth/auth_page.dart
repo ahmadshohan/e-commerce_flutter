@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
 import '../home/home_page.dart';
 
@@ -12,9 +14,16 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  final _auth = FirebaseAuth.instance;
-  final googleSignIn = GoogleSignIn();
-  SharedPreferences _sharedPreferences;
+  final firebaseAuth = FirebaseAuth.instance;
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+  final fireStore = Firestore.instance;
+  FirebaseUser _user;
+  SharedPreferences preferences;
   bool isLogedin = false;
   AuthResult authResult;
   var _isLoading = false;
@@ -28,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
     setState(() {
       _isLoading = true;
     });
-    _sharedPreferences = await SharedPreferences.getInstance();
+    preferences = await SharedPreferences.getInstance();
     isLogedin = await googleSignIn.isSignedIn();
     if (isLogedin) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
@@ -38,6 +47,54 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 
+  void showToast(String msg, {int duration, int gravity}) {
+    Toast.show(msg, context, duration: duration, gravity: gravity);
+  }
+
+  Future<void> handleSignInWithGoogle() async {
+    preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _isLoading = true;
+    });
+    GoogleSignInAccount googleUser = await googleSignIn.signIn();
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleUser.authentication;
+    AuthCredential credential = GoogleAuthProvider.getCredential(
+      idToken: googleSignInAuthentication.idToken,
+      accessToken: googleSignInAuthentication.accessToken,
+    );
+    AuthResult result = await firebaseAuth.signInWithCredential(credential);
+    _user = result.user;
+
+    if (result != null) {
+      final QuerySnapshot querySnapshot = await fireStore
+          .collection('users')
+          .where('id', isEqualTo: _user.uid)
+          .getDocuments();
+      final List<DocumentSnapshot> documents = querySnapshot.documents;
+      if (documents.length == 0) {
+        await fireStore.collection('users').document("${_user.uid}").setData({
+          'id': _user.uid,
+          'username': _user.displayName,
+          'photourl': _user.photoUrl
+        });
+        await preferences.setString('id', _user.uid);
+        await preferences.setString('username', _user.displayName);
+        await preferences.setString('photourl', _user.uid);
+      } else {
+        await preferences.setString('id', documents[0]['id']);
+        await preferences.setString('username', documents[0]['username']);
+        await preferences.setString('photourl', documents[0]['photourl']);
+      }
+      Toast.show("success login", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
+    } else {}
+  }
+
   void _submitAuthForm(String email, String username, String password,
       BuildContext ctx, bool isLogin) async {
     try {
@@ -45,10 +102,10 @@ class _AuthPageState extends State<AuthPage> {
         _isLoading = true;
       });
       if (isLogin) {
-        authResult = await _auth.signInWithEmailAndPassword(
+        authResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
       } else {
-        authResult = await _auth.createUserWithEmailAndPassword(
+        authResult = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
       }
     } on PlatformException catch (err) {
@@ -75,7 +132,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: AuthForm(_submitAuthForm, _isLoading),
+      body: AuthForm(_submitAuthForm, handleSignInWithGoogle, _isLoading),
     );
   }
 }

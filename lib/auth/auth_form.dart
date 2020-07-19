@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoading;
-  AuthForm(this.submitFn, this.isLoading);
+  AuthForm(this.submitFn, this.signInWithGoogle, this.isLoading);
   final void Function(String email, String userName, String password,
       BuildContext ctx, bool isLogin) submitFn;
+  final void Function() signInWithGoogle;
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -241,21 +242,21 @@ class _AuthFormState extends State<AuthForm> {
                                   ),
                                   Expanded(
                                     child: RaisedButton.icon(
-                                        icon: Image(
-                                          image:
-                                              AssetImage('images/google.png'),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        textColor: Colors.white,
-                                        color: Color.fromRGBO(219, 68, 55, 1),
-                                        label: Text(
-                                          'Google',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        onPressed: () {}),
+                                      icon: Image(
+                                        image: AssetImage('images/google.png'),
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      textColor: Colors.white,
+                                      color: Color.fromRGBO(219, 68, 55, 1),
+                                      label: Text(
+                                        'Google',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onPressed: widget.signInWithGoogle,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 13,
