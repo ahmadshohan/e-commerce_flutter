@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
+
 import '../home/home_page.dart';
 
 class AuthPage extends StatefulWidget {
