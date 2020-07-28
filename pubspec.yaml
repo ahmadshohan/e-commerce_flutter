@@ -20,6 +20,7 @@ dependencies:
   firebase_auth: ^0.16.1
   cloud_firestore: ^0.13.7
   google_sign_in: ^4.5.1
+  flutter_facebook_login: ^3.0.0
   toast: ^0.1.5
   image_picker: ^0.6.7+1
 
@@ -29,12 +30,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/m1.jpeg
-    - images/m2.jpg
-    - images/m3.jpeg
-    - images/m4.jpeg
-    - images/m5.jpeg
-    - images/m6.jpg
+    - images/logo.jpeg
     - images/facebook.png
     - images/apple.png
     - images/google.png
@@ -45,6 +41,17 @@ flutter:
     - images/cats/jeans.png
     - images/cats/shoe.png
     - images/cats/tshirt.png
+    - images/products/l1.jpeg
+    - images/products/l2.jpeg
+    - images/products/l3.jpeg
+    - images/products/l4.jpeg
+    - images/products/l5.jpeg
+    - images/products/l6.jpeg
+    - images/products/l7.jpeg
+    - images/products/l8.jpeg
+    - images/products/l9.jpeg
+    - images/products/l10.jpeg
+    - images/products/l11.jpeg
     - images/products/blazer1.jpeg
     - images/products/blazer2.jpeg
     - images/products/dress1.jpeg

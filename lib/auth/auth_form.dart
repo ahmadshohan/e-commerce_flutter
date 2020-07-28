@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoading;
-  AuthForm(this.submitFn, this.signInWithGoogle, this.isLoading);
+  AuthForm(this.submitFn, this.googleSignIn, this.isLoading);
   final void Function(String email, String userName, String password,
       BuildContext ctx, bool isLogin) submitFn;
-  final void Function() signInWithGoogle;
+  final void Function() googleSignIn;
+
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -18,6 +19,7 @@ class _AuthFormState extends State<AuthForm> {
   var _userName = '';
   var _emailAddress = '';
   var _password = '';
+  String groupValue = 'male';
 
   void _trySubmet() {
     final isValid = _formKey.currentState.validate();
@@ -79,7 +81,7 @@ class _AuthFormState extends State<AuthForm> {
                       ],
                     ),
                     child: Text(
-                      'FashionShop',
+                      'Style ecorner',
                       style: TextStyle(
                         color: Theme.of(context).accentTextTheme.title.color,
                         fontSize: 30,
@@ -89,96 +91,144 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                 ),
-                Flexible(
-                    flex: deviceSize.width > 600 ? 2 : 2,
-                    child: Card(
-                      color: Colors.white70,
-                      shape: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      margin: EdgeInsets.all(25),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
+                SingleChildScrollView(
+                  child: Card(
+                    color: Colors.white70,
+                    shape: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.all(25),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                TextFormField(
+                                  key: ValueKey('email'),
+                                  autocorrect: false,
+                                  textCapitalization: TextCapitalization.none,
+                                  enableSuggestions: false,
+                                  decoration: InputDecoration(
+                                    labelText: 'Email adress',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 0.1,
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.email,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value.isEmpty || !value.contains('@')) {
+                                      return 'Please enter a valid Email adress';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _emailAddress = value;
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                if (!_isLogin)
                                   TextFormField(
-                                    key: ValueKey('email'),
-                                    autocorrect: false,
-                                    textCapitalization: TextCapitalization.none,
-                                    enableSuggestions: false,
+                                    key: ValueKey('username'),
+                                    autocorrect: true,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    enableSuggestions: true,
                                     decoration: InputDecoration(
-                                        labelText: 'Email adress'),
-                                    keyboardType: TextInputType.emailAddress,
+                                      labelText: 'User Name',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                          width: 0.1,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                                     validator: (value) {
-                                      if (value.isEmpty ||
-                                          !value.contains('@')) {
-                                        return 'Please enter a valid Email adress';
+                                      if (value.isEmpty || value.length < 4) {
+                                        return 'User Name must be at Least 4 characters.';
                                       }
                                       return null;
                                     },
                                     onSaved: (value) {
-                                      _emailAddress = value;
+                                      _userName = value;
                                     },
                                   ),
-                                  if (!_isLogin)
-                                    TextFormField(
-                                      key: ValueKey('username'),
-                                      autocorrect: true,
-                                      textCapitalization:
-                                          TextCapitalization.words,
-                                      enableSuggestions: true,
-                                      decoration: InputDecoration(
-                                          labelText: 'User Name'),
-                                      validator: (value) {
-                                        if (value.isEmpty || value.length < 4) {
-                                          return 'User Name must be at Least 4 characters.';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        _userName = value;
-                                      },
-                                    ),
-                                  TextFormField(
-                                      key: ValueKey('password'),
-                                      decoration: InputDecoration(
-                                          labelText: 'Password'),
-                                      keyboardType: TextInputType.number,
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value.isEmpty || value.length < 7) {
-                                          return 'Password must be at least 7 characters long.';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        _password = value;
-                                      }),
+                                if (!_isLogin)
                                   SizedBox(
-                                    height: 10,
+                                    height: 6,
                                   ),
-                                  if (widget.isLoading)
-                                    Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  if (!widget.isLoading)
-                                    RaisedButton(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 55),
-                                        shape: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                TextFormField(
+                                    key: ValueKey('password'),
+                                    decoration: InputDecoration(
+                                      labelText: 'Password',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                          width: 0.1,
                                         ),
-                                        textColor: Colors.white,
-                                        color: Colors.deepOrange.shade900,
+                                      ),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          Icons.remove_red_eye,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.lock_outline,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value.isEmpty || value.length < 7) {
+                                        return 'Password must be at least 7 characters long.';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      _password = value;
+                                    }),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                if (widget.isLoading)
+                                  Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                if (!widget.isLoading)
+                                  RaisedButton(
+                                      shape: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      textColor: Colors.white,
+                                      color: Colors.deepOrange.shade900,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 115,
+                                        ),
                                         child: Text(
                                           _isLogin ? 'Login' : 'Signup',
                                           style: TextStyle(
@@ -186,104 +236,114 @@ class _AuthFormState extends State<AuthForm> {
                                             fontSize: 20,
                                           ),
                                         ),
-                                        onPressed: _trySubmet),
-                                  if (!widget.isLoading)
-                                    FlatButton(
-                                      textColor: Theme.of(context).primaryColor,
-                                      onPressed: () {
-                                        setState(() {
-                                          _isLogin = !_isLogin;
-                                        });
-                                      },
-                                      child: Text(
-                                        _isLogin
-                                            ? 'Create new account'
-                                            : 'I already have an acount',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17,
-                                        ),
+                                      ),
+                                      onPressed: _trySubmet),
+                                if (!widget.isLoading)
+                                  FlatButton(
+                                    textColor: Theme.of(context).primaryColor,
+                                    onPressed: () {
+                                      setState(() {
+                                        _isLogin = !_isLogin;
+                                      });
+                                    },
+                                    child: Text(
+                                      _isLogin
+                                          ? 'Create new account'
+                                          : 'I already have an acount',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17,
                                       ),
                                     ),
-                                ],
-                              ),
+                                  ),
+                              ],
                             ),
                           ),
-                          if (!_isLogin) Divider(),
-                          if (!_isLogin)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 13,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: RaisedButton.icon(
-                                        icon: Image(
-                                          image:
-                                              AssetImage('images/facebook.png'),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        textColor: Colors.white,
-                                        color: Color.fromRGBO(66, 103, 178, 1),
-                                        label: Text(
-                                          'Facebook',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        onPressed: () {}),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Expanded(
-                                    child: RaisedButton.icon(
+                        ),
+                        if (!_isLogin) Divider(),
+                        if (!_isLogin)
+                          Text(
+                            'Sign in with social accounts',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        if (!_isLogin)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 13,
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: RaisedButton.icon(
                                       icon: Image(
-                                        image: AssetImage('images/google.png'),
+                                        image:
+                                            AssetImage('images/facebook.png'),
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      textColor: Colors.white,
+                                      color: Color.fromRGBO(66, 103, 178, 1),
+                                      label: Text(
+                                        'Facebook',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      onPressed: () {}),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Expanded(
+                                  child: RaisedButton.icon(
+                                    icon: Image(
+                                      image: AssetImage('images/google.png'),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    textColor: Colors.white,
+                                    color: Color.fromRGBO(219, 68, 55, 1),
+                                    label: Text(
+                                      'Google',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    onPressed: widget.googleSignIn,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 13,
+                                ),
+                                Expanded(
+                                  child: RaisedButton.icon(
+                                      icon: Image(
+                                        image: AssetImage('images/apple.png'),
                                       ),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10)),
-                                      textColor: Colors.white,
-                                      color: Color.fromRGBO(219, 68, 55, 1),
+                                      textColor: Colors.black87,
+                                      color: Color.fromRGBO(255, 255, 255, 1),
                                       label: Text(
-                                        'Google',
+                                        'Apple',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(fontSize: 15),
                                       ),
-                                      onPressed: widget.signInWithGoogle,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 13,
-                                  ),
-                                  Expanded(
-                                    child: RaisedButton.icon(
-                                        icon: Image(
-                                          image: AssetImage('images/apple.png'),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        textColor: Colors.black87,
-                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                        label: Text(
-                                          'Apple',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        onPressed: () {}),
-                                  ),
-                                ],
-                              ),
-                            )
-                        ],
-                      ),
-                    )),
+                                      onPressed: () {}),
+                                ),
+                              ],
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

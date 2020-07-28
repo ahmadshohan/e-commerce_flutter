@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fashinshop/services/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
@@ -31,13 +33,14 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
-    isSignedIn();
+//    isSignedInWithGoogle();
   }
 
-  void isSignedIn() async {
+  void isSignedInWithGoogle() async {
     setState(() {
       _isLoading = true;
     });
+
     preferences = await SharedPreferences.getInstance();
     isLogedin = await googleSignIn.isSignedIn();
     if (isLogedin) {
@@ -48,15 +51,12 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 
-  void showToast(String msg, {int duration, int gravity}) {
-    Toast.show(msg, context, duration: duration, gravity: gravity);
-  }
-
-  Future<void> handleSignInWithGoogle() async {
+  Future<void> handleGoogleSignIn() async {
     preferences = await SharedPreferences.getInstance();
     setState(() {
       _isLoading = true;
     });
+
     GoogleSignInAccount googleUser = await googleSignIn.signIn();
     GoogleSignInAuthentication googleSignInAuthentication =
         await googleUser.authentication;
@@ -77,31 +77,54 @@ class _AuthPageState extends State<AuthPage> {
         await fireStore.collection('users').document("${_user.uid}").setData({
           'id': _user.uid,
           'username': _user.displayName,
-          'photourl': _user.photoUrl
+          'email': _user.email,
+          'profilePicture': _user.photoUrl,
         });
         await preferences.setString('id', _user.uid);
         await preferences.setString('username', _user.displayName);
-        await preferences.setString('photourl', _user.uid);
+        await preferences.setString('email', _user.email);
+        await preferences.setString('profilePicture', _user.photoUrl);
       } else {
         await preferences.setString('id', documents[0]['id']);
         await preferences.setString('username', documents[0]['username']);
-        await preferences.setString('photourl', documents[0]['photourl']);
+        await preferences.setString('email', documents[0]['email']);
+        await preferences.setString(
+            'profilePicture', documents[0]['profilePicture']);
       }
       Toast.show("success login", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       setState(() {
         _isLoading = false;
       });
+
       Navigator.pushReplacementNamed(context, HomePage.routeName);
-    } else {}
+    } else {
+      Toast.show("login failed", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    }
   }
 
-  void _submitAuthForm(String email, String username, String password,
-      BuildContext ctx, bool isLogin) async {
+  Future<void> handleGoogleSignOut() async {
+    await firebaseAuth.signOut().then((value) {
+      googleSignIn.signOut();
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  void _submitAuthForm(
+    String email,
+    String username,
+    String password,
+    BuildContext ctx,
+    bool isLogin,
+  ) async {
     try {
       setState(() {
         _isLoading = true;
       });
+
       if (isLogin) {
         authResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
@@ -116,7 +139,7 @@ class _AuthPageState extends State<AuthPage> {
       }
       Scaffold.of(ctx).showSnackBar(SnackBar(
         content: Text(message),
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(ctx).errorColor,
       ));
       setState(() {
         _isLoading = false;
@@ -133,7 +156,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: AuthForm(_submitAuthForm, handleSignInWithGoogle, _isLoading),
+      body: AuthForm(_submitAuthForm, handleGoogleSignIn, _isLoading),
     );
   }
 }

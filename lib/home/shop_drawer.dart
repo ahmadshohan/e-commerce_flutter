@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'home_page.dart';
 
 class ShopDrawer extends StatelessWidget {
+  final firebaseAuth = FirebaseAuth.instance;
+  final fireStore = Firestore.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+//  Future<void> handleGoogleSignOut() async {
+//    await firebaseAuth.signOut().then((value) {
+//      googleSignIn.signOut();
+//    });
+//  }
+
   @override
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
@@ -100,11 +117,14 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => firebaseAuth.signOut(),
+            onTap: () {
+              firebaseAuth.signOut();
+//              handleGoogleSignOut();
+            },
             child: ListTile(
               title: Text('Log out'),
               leading: Icon(
-                Icons.close,
+                Icons.exit_to_app,
               ),
             ),
           ),
