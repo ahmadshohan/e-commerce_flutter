@@ -141,7 +141,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                           Expanded(
                             child: Text(
-                              "${product['oldPrice']}\$",
+                              "${product['oldPrice']}LL",
                               style: TextStyle(
                                 color: Colors.lightBlue,
                                 fontWeight: FontWeight.bold,
@@ -154,7 +154,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                           Expanded(
                             child: Text(
-                              "${product['currentPrice']}\$",
+                              "${product['currentPrice']}LL",
                               style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 title: Text(
                   'Product details',
                 ),
-                subtitle: Text(blazarDetail),
+                subtitle: Text(product['descreption']),
               ),
               Divider(),
               Row(

@@ -23,6 +23,7 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   toast: ^0.1.5
   image_picker: ^0.6.7+1
+  animated_text_kit: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +53,43 @@ flutter:
     - images/products/l9.jpeg
     - images/products/l10.jpeg
     - images/products/l11.jpeg
+    - images/products/p1.jpeg
+    - images/products/p2.jpeg
+    - images/products/p3.jpeg
+    - images/products/p4.jpeg
+    - images/products/p5.jpeg
+    - images/products/p6.jpeg
+    - images/products/p7.jpeg
+    - images/products/p8.jpeg
+    - images/products/p8.jpeg
+    - images/products/p9.jpeg
+    - images/products/p10.jpeg
+    - images/products/p11.jpeg
+    - images/products/p12.jpeg
+    - images/products/p13.jpeg
+    - images/products/p14.jpeg
+    - images/products/p15.jpeg
+    - images/products/p16.jpeg
+    - images/products/p17.jpeg
+    - images/products/p18.jpeg
+    - images/products/p20.jpeg
+    - images/products/p21.jpeg
+    - images/products/p22.jpeg
+    - images/products/p23.jpeg
+    - images/products/p24.jpeg
+    - images/products/p25.jpeg
+    - images/products/p26.jpeg
+    - images/products/p27.jpeg
+    - images/products/p28.jpeg
+    - images/products/p29.jpeg
+    - images/products/p30.jpeg
+    - images/products/p31.jpeg
+    - images/products/p32.jpeg
+    - images/products/p33.jpeg
+    - images/products/p34.jpeg
+    - images/products/p35.jpeg
+    - images/products/p36.jpeg
+    - images/products/p37.jpeg
     - images/products/blazer1.jpeg
     - images/products/blazer2.jpeg
     - images/products/dress1.jpeg

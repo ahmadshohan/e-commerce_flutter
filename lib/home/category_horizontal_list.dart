@@ -1,3 +1,4 @@
+import 'package:fashinshop/category/category_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,10 @@ class Category extends StatelessWidget {
         top: 8,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, CategoryItem.routeName,
+              arguments: imageCaption);
+        },
         child: Container(
           width: 100,
           child: ListTile(

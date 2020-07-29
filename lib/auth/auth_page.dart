@@ -124,13 +124,21 @@ class _AuthPageState extends State<AuthPage> {
       setState(() {
         _isLoading = true;
       });
-
+      FirebaseUser firebaseUser = await firebaseAuth.currentUser();
       if (isLogin) {
         authResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-      } else {
+      } else if (isLogin == false || firebaseUser == null) {
         authResult = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
+        fireStore
+            .collection('users')
+            .document('${authResult.user.uid}')
+            .setData({
+          'username': username,
+          'email': authResult.user.email,
+          'userid': authResult.user.uid,
+        });
       }
     } on PlatformException catch (err) {
       var message = 'An error occurred ,Please check your credentials';

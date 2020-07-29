@@ -1,9 +1,10 @@
 import 'file:///C:/Users/ASUS/Desktop/e-commerce-app/fashin_shop/lib/shopping_cart/shopping_cart_page.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'category_horizontal_list.dart';
-import 'products.dart';
+import 'products_grid.dart';
 import 'shop_drawer.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,17 +16,50 @@ class HomePage extends StatelessWidget {
       width: double.infinity,
       child: Carousel(
         images: [
-          AssetImage('images/products/l1.jpeg'),
-          AssetImage('images/products/l2.jpeg'),
-          AssetImage('images/products/l3.jpeg'),
-          AssetImage('images/products/l4.jpeg'),
-          AssetImage('images/products/l5.jpeg'),
-          AssetImage('images/products/l6.jpeg'),
-          AssetImage('images/products/l7.jpeg'),
-          AssetImage('images/products/l8.jpeg'),
-          AssetImage('images/products/l9.jpeg'),
-          AssetImage('images/products/l10.jpeg'),
-          AssetImage('images/products/l11.jpeg'),
+          Image.asset(
+            'images/products/l1.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l2.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l3.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l4.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l5.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l6.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l7.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l8.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l9.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l10.jpeg',
+            fit: BoxFit.fill,
+          ),
+          Image.asset(
+            'images/products/l11.jpeg',
+            fit: BoxFit.fill,
+          ),
         ],
         autoplay: true,
         dotBgColor: Colors.transparent,
@@ -45,10 +79,15 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           elevation: 0.1,
           backgroundColor: Colors.red,
-          title: Text(
-            'Style ecorner',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+          title: TyperAnimatedTextKit(
+            text: ['Style ecorner'],
+            speed: Duration(seconds: 1),
+            isRepeatingAnimation: true,
+            textStyle: TextStyle(
+              color: Theme.of(context).accentTextTheme.title.color,
+              fontSize: 25,
+              fontFamily: 'Anton',
+              fontWeight: FontWeight.normal,
             ),
           ),
           actions: <Widget>[
@@ -90,7 +129,7 @@ class HomePage extends StatelessWidget {
             ),
             Container(
               height: 320,
-              child: Products(),
+              child: ProductsGrid(),
             ),
           ],
         ));
