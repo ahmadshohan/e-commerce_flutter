@@ -1,12 +1,49 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import './auth/auth_page.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  startTimer() async {
+    var duration = Duration(seconds: 6);
+    return Timer(duration, route);
+  }
+
+  void route() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (ctx) => AuthPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).primaryColor,
-      child: Center(
-        child: CircularProgressIndicator(),
+    double hight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          child: Image.asset(
+            'images/logo.jpeg',
+            fit: BoxFit.fill,
+            height: 150,
+          ),
+        ),
       ),
     );
   }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import './category/category_item.dart';
-
-import 'package:fashinshop/auth/auth_page.dart';
+import 'package:fashinshop/about_us.dart';
 import 'package:provider/provider.dart';
+import './category/category_item.dart';
 import 'home/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'shopping_cart/shopping_cart_page.dart';
 import 'product_detail/product_details_page.dart';
 import './provider/products.dart';
@@ -29,22 +27,13 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: StreamBuilder(
-            stream: FirebaseAuth.instance.onAuthStateChanged,
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SplashPage();
-              }
-              if (snapshot.hasData) {
-                return HomePage();
-              }
-              return AuthPage();
-            }),
+        home: SplashPage(),
         routes: {
           ProductDetails.routeName: (ctx) => ProductDetails(),
           HomePage.routeName: (ctx) => HomePage(),
           ShoppingCart.routeName: (ctx) => ShoppingCart(),
-          CategoryItem.routeName: (ctx) => CategoryItem(),
+          CategorySelected.routeName: (ctx) => CategorySelected(),
+          AboutUs.routeName: (ctx) => AboutUs(),
         },
       ),
     );

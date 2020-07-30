@@ -102,7 +102,7 @@ class SingleProductCart extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      "${productCartPrice}\$",
+                      "$productCartPrice\$",
                       style: TextStyle(
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class SingleProductCart extends StatelessWidget {
                       onPressed: () {},
                     ),
                     Text(
-                      "${productCartQuantity}",
+                      "$productCartQuantity",
                     ),
                     IconButton(
                       icon: Icon(Icons.arrow_drop_down),

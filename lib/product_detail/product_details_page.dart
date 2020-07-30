@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../home/home_page.dart';
 import 'similar_product.dart';
+import '../provider/products.dart';
 import '../components/data_lists.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -121,47 +124,74 @@ class _ProductDetailsState extends State<ProductDetails> {
                     color: Colors.white,
                     child: Image.asset(
                       product['image'],
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   footer: Container(
-                    color: Colors.black12,
+                    color: Colors.black54,
                     child: ListTile(
-                      leading: Text(
-                        product['name'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
+                      title: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                product['name'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "${product['oldPrice']}",
+                                    style: TextStyle(
+                                      decoration: TextDecoration.lineThrough,
+                                      decorationColor: Colors.red,
+                                      decorationThickness: 3,
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                      text: 'LL',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                              ),
+                            ),
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "${product['currentPrice']}",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                      text: 'LL',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      title: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              "${product['oldPrice']}LL",
-                              style: TextStyle(
-                                color: Colors.lightBlue,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Expanded(
-                            child: Text(
-                              "${product['currentPrice']}LL",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
                       ),
                     ),
                   ),
@@ -258,7 +288,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 title: Text(
                   'Product details',
                 ),
-                subtitle: Text(product['descreption']),
+                subtitle: Text(product['decription']),
               ),
               Divider(),
               Row(

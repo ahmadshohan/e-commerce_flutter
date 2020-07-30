@@ -7,25 +7,25 @@ const blazarDetail =
 List<Map<String, dynamic>> similarProductsList = [
   {
     'name': 'Black pants',
-    'image': 'images/products/pants1.jpg',
+    'image': 'images/products/pants/pa1.jpeg',
     'oldPrice': 150,
     'currentPrice': 100
   },
   {
     'name': 'Clasik pants',
-    'image': 'images/products/pants2.jpeg',
+    'image': 'images/products/pants/pa2.jpeg',
     'oldPrice': 150,
     'currentPrice': 100
   },
   {
     'name': 'Normal skert',
-    'image': 'images/products/skt1.jpeg',
+    'image': 'images/products/skirts/sk1.jpeg',
     'oldPrice': 150,
     'currentPrice': 100
   },
   {
     'name': 'Pink skert',
-    'image': 'images/products/skt2.jpeg',
+    'image': 'images/products/skirts/sk2.jpeg',
     'oldPrice': 150,
     'currentPrice': 100
   }
@@ -33,7 +33,8 @@ List<Map<String, dynamic>> similarProductsList = [
 List<Map<String, dynamic>> productsCartList = [
   {
     'name': 'Black pants',
-    'image': 'images/products/pants1.jpg',
+    'image': 'images/products/pants/pa1.jpeg',
+    'size': 'M',
     'price': 100,
     'size': 'M',
     'quantity': 1,
@@ -41,7 +42,7 @@ List<Map<String, dynamic>> productsCartList = [
   },
   {
     'name': 'Clasik pants',
-    'image': 'images/products/pants2.jpeg',
+    'image': 'images/products/pants/pa2.jpeg',
     'size': 'M',
     'quantity': 1,
     'color': 'red',
@@ -49,7 +50,7 @@ List<Map<String, dynamic>> productsCartList = [
   },
   {
     'name': 'Normal skert',
-    'image': 'images/products/skt1.jpeg',
+    'image': 'images/products/skirts/sk1.jpeg',
     'size': 'M',
     'quantity': 1,
     'color': 'red',
@@ -57,7 +58,7 @@ List<Map<String, dynamic>> productsCartList = [
   },
   {
     'name': 'Pink skert',
-    'image': 'images/products/skt2.jpeg',
+    'image': 'images/products/skirts/sk2.jpeg',
     'size': 'M',
     'quantity': 1,
     'color': 'pink',

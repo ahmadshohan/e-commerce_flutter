@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../about_us.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -108,9 +109,11 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, AboutUs.routeName);
+            },
             child: ListTile(
-              title: Text('About'),
+              title: Text('About us'),
               leading: Icon(
                 Icons.help,
               ),

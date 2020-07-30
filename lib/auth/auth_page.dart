@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fashinshop/services/login.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
@@ -164,7 +164,14 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: AuthForm(_submitAuthForm, handleGoogleSignIn, _isLoading),
+      body: StreamBuilder(
+          stream: FirebaseAuth.instance.onAuthStateChanged,
+          builder: (ctx, snapshot) {
+            if (snapshot.hasData) {
+              return HomePage();
+            }
+            return AuthForm(_submitAuthForm, handleGoogleSignIn, _isLoading);
+          }),
     );
   }
 }
