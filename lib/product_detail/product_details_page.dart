@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../home/home_page.dart';
-import 'similar_product.dart';
+import '../home/products_grid.dart';
 import '../provider/products.dart';
 import '../components/data_lists.dart';
 
@@ -79,6 +78,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     final product =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final productCategory = product['category'];
+    final productsData = Provider.of<Products>(context);
+    final productList = productsData.productsList;
+    final productsFilterd = productList.where((product) {
+      return product.category.contains(productCategory);
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -94,13 +99,14 @@ class _ProductDetailsState extends State<ProductDetails> {
             onPressed: () {},
           ),
           IconButton(
-              padding: const EdgeInsets.only(right: 10),
-              icon: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, HomePage.routeName)),
+            padding: const EdgeInsets.only(right: 10),
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, HomePage.routeName),
+          ),
         ],
       ),
       body: CustomScrollView(
@@ -271,11 +277,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                     onPressed: () {},
                     color: Colors.red,
                     icon: Icon(
-                      Icons.favorite_border,
+                      product['favorites']
+                          ? Icons.favorite
+                          : Icons.favorite_border,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      productsData.addCart(
+                          product['id'],
+                          product['currentPrice'],
+                          product['image'],
+                          product['name']);
+                    },
                     color: Colors.red,
                     icon: Icon(
                       Icons.add_shopping_cart,
@@ -345,8 +359,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               Container(
-                height: 320,
-                child: SimilarProducts(),
+                height: 500,
+                child: ProductsGrid(productsFilterd),
               ),
             ]),
           ),

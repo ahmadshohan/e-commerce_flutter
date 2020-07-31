@@ -18,6 +18,10 @@ class _AuthFormState extends State<AuthForm>
   final _formKey = GlobalKey<FormState>();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordConfrirmController = TextEditingController();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+  FocusNode passwordConfirmFocusNode = FocusNode();
+  FocusNode userNameFocusNode = FocusNode();
   var _isLogin = true;
   var _userName = '';
   var _emailAddress = '';
@@ -46,6 +50,12 @@ class _AuthFormState extends State<AuthForm>
   void dispose() {
     super.dispose();
     controller.dispose();
+    _passwordController.dispose();
+    _passwordConfrirmController.dispose();
+    emailFocusNode.dispose();
+    userNameFocusNode.dispose();
+    passwordFocusNode.dispose();
+    passwordConfirmFocusNode.dispose();
   }
 
   void _trySubmet() {
@@ -145,10 +155,18 @@ class _AuthFormState extends State<AuthForm>
                                   children: <Widget>[
                                     TextFormField(
                                       key: ValueKey('email'),
+                                      focusNode: emailFocusNode,
+                                      textInputAction: TextInputAction.next,
                                       autocorrect: false,
                                       textCapitalization:
                                           TextCapitalization.none,
                                       enableSuggestions: false,
+                                      onFieldSubmitted: (_) {
+                                        FocusScope.of(context).requestFocus(
+                                            _isLogin
+                                                ? passwordFocusNode
+                                                : userNameFocusNode);
+                                      },
                                       decoration: InputDecoration(
                                         labelText: 'Email adress',
                                         border: OutlineInputBorder(
@@ -183,9 +201,15 @@ class _AuthFormState extends State<AuthForm>
                                       TextFormField(
                                         key: ValueKey('username'),
                                         autocorrect: true,
+                                        textInputAction: TextInputAction.next,
+                                        focusNode: userNameFocusNode,
                                         textCapitalization:
                                             TextCapitalization.words,
                                         enableSuggestions: true,
+                                        onFieldSubmitted: (_) {
+                                          FocusScope.of(context)
+                                              .requestFocus(passwordFocusNode);
+                                        },
                                         decoration: InputDecoration(
                                           labelText: 'User Name',
                                           border: OutlineInputBorder(
@@ -217,51 +241,65 @@ class _AuthFormState extends State<AuthForm>
                                         height: 6,
                                       ),
                                     TextFormField(
-                                        key: ValueKey('password'),
-                                        controller: _passwordController,
-                                        decoration: InputDecoration(
-                                          labelText: 'Password',
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderSide: BorderSide(
-                                              color: Colors.grey,
-                                              width: 0.1,
-                                            ),
-                                          ),
-                                          suffixIcon: IconButton(
-                                            icon: Icon(
-                                              Icons.remove_red_eye,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                hidePassword = !hidePassword;
-                                              });
-                                            },
-                                          ),
-                                          prefixIcon: Icon(
-                                            Icons.lock_outline,
+                                      key: ValueKey('password'),
+                                      controller: _passwordController,
+                                      focusNode: passwordFocusNode,
+                                      onFieldSubmitted: (_) {
+                                        if (_isLogin) {
+                                          _trySubmet();
+                                        } else {
+                                          FocusScope.of(context).requestFocus(
+                                            passwordConfirmFocusNode,
+                                          );
+                                        }
+                                      },
+                                      textInputAction: _isLogin
+                                          ? TextInputAction.done
+                                          : TextInputAction.next,
+                                      decoration: InputDecoration(
+                                        labelText: 'Password',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
                                             color: Colors.grey,
+                                            width: 0.1,
                                           ),
                                         ),
-                                        keyboardType: TextInputType.number,
-                                        obscureText: hidePassword,
-                                        validator: (value) {
-                                          if (value.isEmpty ||
-                                              value.length < 7) {
-                                            return 'Password must be at least 7 characters long.';
-                                          }
-                                          return null;
-                                        },
-                                        onSaved: (value) {
-                                          _password = value;
-                                        }),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            Icons.remove_red_eye,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              hidePassword = !hidePassword;
+                                            });
+                                          },
+                                        ),
+                                        prefixIcon: Icon(
+                                          Icons.lock_outline,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      obscureText: hidePassword,
+                                      validator: (value) {
+                                        if (value.isEmpty || value.length < 7) {
+                                          return 'Password must be at least 7 characters long.';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _password = value;
+                                      },
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),
                                     if (!_isLogin)
                                       TextFormField(
-                                          key: ValueKey('confirmpassword'),
+                                          key: ValueKey('confirmPassword'),
+                                          focusNode: passwordConfirmFocusNode,
                                           decoration: InputDecoration(
                                             labelText: 'Confirm password',
                                             border: OutlineInputBorder(
@@ -287,6 +325,7 @@ class _AuthFormState extends State<AuthForm>
                                               color: Colors.grey,
                                             ),
                                           ),
+                                          onFieldSubmitted: (_) => _trySubmet(),
                                           controller:
                                               _passwordConfrirmController,
                                           keyboardType: TextInputType.number,

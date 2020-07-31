@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'single_product.dart';
+import '../provider/cart_item.dart';
 import '../provider/product.dart';
 
 class ProductsGrid extends StatelessWidget {
   final List<Product> products;
-  ProductsGrid(this.products);
+  ProductsGrid(
+    this.products,
+  );
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -16,13 +19,7 @@ class ProductsGrid extends StatelessWidget {
         itemBuilder: (context, i) {
           return ChangeNotifierProvider.value(
             value: products[i],
-            child: SingleProduct(
-//              name: productsData[i].name,
-//              descreption: productsData[i].descreption,
-//              image: productsData[i].image,
-//              oldPrice: productsData[i].oldPrice,
-//              currentPrice: productsData[i].currentPrice,
-                ),
+            child: SingleProduct(),
           );
         });
   }

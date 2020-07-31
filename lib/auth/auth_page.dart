@@ -12,6 +12,7 @@ import '../auth/auth_form.dart';
 import '../home/home_page.dart';
 
 class AuthPage extends StatefulWidget {
+  static const routeName = '/auth-page';
   @override
   _AuthPageState createState() => _AuthPageState();
 }

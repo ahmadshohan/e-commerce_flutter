@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import '../about_us.dart';
+import 'about_us.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'home_page.dart';
+import 'favorites_page.dart';
+import '../home/home_page.dart';
+import 'all_products.dart';
 
 class ShopDrawer extends StatelessWidget {
   final firebaseAuth = FirebaseAuth.instance;
@@ -76,10 +78,12 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(
-              context,
-              ShoppingCart.routeName,
-            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                ShoppingCart.routeName,
+              );
+            },
             child: ListTile(
               title: Text('Shopping cart'),
               leading: Icon(
@@ -89,7 +93,21 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(AllProducts.routeName);
+            },
+            child: ListTile(
+              title: Text('All Products'),
+              leading: Icon(
+                Icons.border_all,
+                color: Colors.red,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(FavoritesPage.routeName);
+            },
             child: ListTile(
               title: Text('Favourites'),
               leading: Icon(

@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/product.dart';
+import '../provider/products.dart';
 import '../product_detail/product_details_page.dart';
 
 class SingleProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final singleProduct = Provider.of<Product>(context);
+    final product = Provider.of<Products>(context);
+
     return Card(
       elevation: 2,
       shape: OutlineInputBorder(
@@ -20,12 +22,14 @@ class SingleProduct extends StatelessWidget {
             context,
             ProductDetails.routeName,
             arguments: {
-              'id': product.id,
-              'name': product.name,
-              'decription': product.descreption,
-              'image': product.image,
-              'currentPrice': product.currentPrice,
-              'oldPrice': product.oldPrice,
+              'id': singleProduct.id,
+              'name': singleProduct.name,
+              'decription': singleProduct.descreption,
+              'category': singleProduct.category,
+              'image': singleProduct.image,
+              'favorites': singleProduct.isFavorite,
+              'currentPrice': singleProduct.currentPrice,
+              'oldPrice': singleProduct.oldPrice,
             },
           ),
           child: GridTile(
@@ -38,31 +42,22 @@ class SingleProduct extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    product.name,
+                    singleProduct.name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-//                Expanded(
-//                  child: Text(
-//                    "${product.currentPrice}\$",
-//                    style: TextStyle(
-//                        color: Colors.white,
-//                        fontWeight: FontWeight.w800,
-//                        fontSize: 14),
-//                  ),
-//                ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
                       onPressed: () {
-                        product.toggleFavoriteStatus();
+                        singleProduct.toggleFavoriteStatus();
                       },
                       icon: Icon(
-                        product.isFavorite
+                        singleProduct.isFavorite
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: Colors.red,
@@ -74,14 +69,20 @@ class SingleProduct extends StatelessWidget {
                         Icons.shopping_cart,
                         color: Colors.red,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        product.addCart(
+                            singleProduct.id,
+                            singleProduct.currentPrice,
+                            singleProduct.image,
+                            singleProduct.name);
+                      },
                     )
                   ],
                 ),
               ]),
             ),
             child: Image.asset(
-              product.image,
+              singleProduct.image,
               fit: BoxFit.cover,
             ),
           ),

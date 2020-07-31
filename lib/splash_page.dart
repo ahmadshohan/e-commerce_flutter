@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fashinshop/welcome_page.dart';
 import './auth/auth_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -21,11 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void route() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (ctx) => AuthPage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed(AuthPage.routeName);
   }
 
   @override

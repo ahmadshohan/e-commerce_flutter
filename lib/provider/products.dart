@@ -1,24 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'product.dart';
+import 'cart_item.dart';
 
 class Products with ChangeNotifier {
   List<Product> _productsList = [
-    Product(
-        id: 'dr6',
-        name: "Cozy creamy",
-        category: 'Dresses',
-        descreption: "Cozy creamy wool",
-        image: 'images/products/dress/dr6.jpeg',
-        oldPrice: 150000,
-        currentPrice: 120000),
-    Product(
-        id: 'dr4',
-        name: "Black dress",
-        category: 'Dresses',
-        descreption: "Black dress with lace (free size)",
-        image: 'images/products/dress/dr4.jpeg',
-        oldPrice: 75000,
-        currentPrice: 60000),
     Product(
         id: 'tops1',
         name: "Long sleeved top",
@@ -92,14 +77,6 @@ class Products with ChangeNotifier {
         oldPrice: 150000,
         currentPrice: 120000),
     Product(
-        id: 'tops15',
-        name: "T-shirt",
-        category: 'Tops',
-        descreption: "Long printed T-shirt /black and white/",
-        image: 'images/products/tops/tops15.jpeg',
-        oldPrice: 75000,
-        currentPrice: 50000),
-    Product(
         id: 'tops6',
         name: "Jumper",
         category: 'Tops',
@@ -107,14 +84,6 @@ class Products with ChangeNotifier {
         image: 'images/products/tops/tops6.jpeg',
         oldPrice: 65000,
         currentPrice: 50000),
-    Product(
-        id: 'tops11',
-        name: "Fleece",
-        category: 'Tops',
-        descreption: " Fleece inside out",
-        image: 'images/products/tops/tops11.jpeg',
-        oldPrice: 60000,
-        currentPrice: 45000),
     Product(
         id: 'tops10',
         name: "Casual wool top",
@@ -124,6 +93,14 @@ class Products with ChangeNotifier {
         oldPrice: 70000,
         currentPrice: 60000),
     Product(
+        id: 'tops11',
+        name: "Fleece",
+        category: 'Tops',
+        descreption: " Fleece inside out",
+        image: 'images/products/tops/tops11.jpeg',
+        oldPrice: 60000,
+        currentPrice: 45000),
+    Product(
         id: 'tops14',
         name: "Black top",
         category: 'Tops',
@@ -131,6 +108,22 @@ class Products with ChangeNotifier {
         image: 'images/products/tops/tops14.jpeg',
         oldPrice: 75000,
         currentPrice: 60000),
+    Product(
+        id: 'tops15',
+        name: "T-shirt",
+        category: 'Tops',
+        descreption: "Long printed T-shirt /black and white/",
+        image: 'images/products/tops/tops15.jpeg',
+        oldPrice: 75000,
+        currentPrice: 50000),
+    Product(
+        id: 'tops16',
+        name: "Baby gry set ",
+        category: 'Tops',
+        descreption: "Baby black velvet set",
+        image: 'images/products/tops/tops16.jpeg',
+        oldPrice: 65000,
+        currentPrice: 45000),
     Product(
         id: 'pa1',
         name: "Leather pants",
@@ -156,11 +149,11 @@ class Products with ChangeNotifier {
         oldPrice: 65000,
         currentPrice: 45000),
     Product(
-        id: 'sk2',
+        id: 'set6',
         name: "Lilas skirt with floral",
-        category: 'Skirts',
+        category: 'Sets',
         descreption: "Lilas skirt with floral crop top/anti-winkles material/",
-        image: 'images/products/skirts/sk2.jpeg',
+        image: 'images/products/sets/set6.jpeg',
         oldPrice: 120000,
         currentPrice: 100000),
     Product(
@@ -203,6 +196,14 @@ class Products with ChangeNotifier {
         image: 'images/products/dress/dr3.jpeg',
         oldPrice: 140000,
         currentPrice: 120000),
+    Product(
+        id: 'dr4',
+        name: "Black dress",
+        category: 'Dresses',
+        descreption: "Black dress with lace (free size)",
+        image: 'images/products/dress/dr4.jpeg',
+        oldPrice: 75000,
+        currentPrice: 60000),
     Product(
         id: 'dr5',
         name: "Wool dress ",
@@ -349,13 +350,13 @@ class Products with ChangeNotifier {
         oldPrice: 80000,
         currentPrice: 60000),
     Product(
-        id: 'set6',
-        name: "Baby gry set ",
+        id: 'set7',
+        name: "Cozy creamy",
         category: 'Sets',
-        descreption: "Baby black velvet set",
-        image: 'images/products/sets/set6.jpeg',
-        oldPrice: 65000,
-        currentPrice: 45000),
+        descreption: "Cozy creamy wool",
+        image: 'images/products/sets/set7.jpeg',
+        oldPrice: 150000,
+        currentPrice: 120000),
     Product(
         id: 'sh1',
         name: "Burgundy heel ",
@@ -378,7 +379,79 @@ class Products with ChangeNotifier {
     return [..._productsList];
   }
 
+  List<Product> get favoritesProducts {
+    return _productsList.where((prod) => prod.isFavorite).toList();
+  }
+
+  Map<String, CartItem> _cartItems = {};
+  Map<String, CartItem> get cartItems {
+    return {..._cartItems};
+  }
+
   Product findById(String id) {
     return _productsList.firstWhere((prod) => prod.id == id);
+  }
+
+  int get itemCount {
+    return _cartItems.length;
+  }
+
+  int get totalAmount {
+    var total = 0;
+    _cartItems.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
+  }
+
+  void addCart(String productId, int price, String image, String title) {
+    if (cartItems.containsKey(productId)) {
+      _cartItems.update(
+          productId,
+          (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              price: existingCartItem.price,
+              image: existingCartItem.image,
+              quantity: existingCartItem.quantity + 1));
+    } else {
+      _cartItems.putIfAbsent(
+          productId,
+          () => CartItem(
+              id: DateTime.now().toString(),
+              title: title,
+              price: price,
+              image: image,
+              quantity: 1));
+    }
+    notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    _cartItems.remove(productId);
+    notifyListeners();
+  }
+
+  void removeSingelItem(String productId) {
+    if (!_cartItems.containsKey(productId)) {
+      return;
+    }
+    if (_cartItems[productId].quantity > 1) {
+      _cartItems.update(productId, (existingCart) {
+        return CartItem(
+            id: existingCart.id,
+            title: existingCart.title,
+            price: existingCart.price,
+            quantity: existingCart.quantity - 1);
+      });
+    } else {
+      _cartItems.remove(productId);
+    }
+    notifyListeners();
+  }
+
+  void clear() {
+    _cartItems = {};
+    notifyListeners();
   }
 }

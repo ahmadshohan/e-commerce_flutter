@@ -24,6 +24,7 @@ dependencies:
   toast: ^0.1.5
   image_picker: ^0.6.7+1
   animated_text_kit: ^2.2.0
+  flutter_spinkit: ^4.1.2
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +44,6 @@ flutter:
     - images/products/dress/dr3.jpeg
     - images/products/dress/dr4.jpeg
     - images/products/dress/dr5.jpeg
-    - images/products/dress/dr6.jpeg
     - images/products/dress/dr7.jpeg
     - images/products/dress/dr8.jpeg
     - images/products/dress/dr9.jpeg
@@ -69,8 +69,8 @@ flutter:
     - images/products/sets/set4.jpeg
     - images/products/sets/set5.jpeg
     - images/products/sets/set6.jpeg
+    - images/products/sets/set7.jpeg
     - images/products/skirts/sk1.jpeg
-    - images/products/skirts/sk2.jpeg
     - images/products/skirts/sk3.jpeg
     - images/products/skirts/sk4.jpeg
     - images/products/skirts/sk5.jpeg
@@ -90,6 +90,7 @@ flutter:
     - images/products/tops/tops13.jpeg
     - images/products/tops/tops14.jpeg
     - images/products/tops/tops15.jpeg
+    - images/products/tops/tops16.jpeg
     - images/products/shoes/sh1.jpeg
     - images/products/shoes/sh2.jpeg
 
