@@ -4,6 +4,7 @@ import '../home/home_page.dart';
 import '../home/products_grid.dart';
 import '../provider/products.dart';
 import '../components/data_lists.dart';
+import '../components/constants.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/product-detail';
@@ -84,6 +85,57 @@ class _ProductDetailsState extends State<ProductDetails> {
     final productsFilterd = productList.where((product) {
       return product.category.contains(productCategory);
     }).toList();
+    Future<bool> showConfirmAddDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text(
+                  'Are you sure?',
+                  style: TextStyle(color: Colors.red),
+                ),
+                content: Text('Do you want to add the item to the cart?'),
+                actions: <Widget>[
+                  FlatButton(
+                    color: Colors.red,
+                    shape: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      productsData.addCart(
+                          loadedProduct.id,
+                          loadedProduct.currentPrice,
+                          loadedProduct.image,
+                          loadedProduct.name);
+                      Navigator.of(ctx).pop(true);
+                    },
+                    child: Text(
+                      'Yes',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  FlatButton(
+                    color: Colors.black12,
+                    shape: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    },
+                    child: Text(
+                      'No',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -288,11 +340,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   IconButton(
                     onPressed: () {
-                      productsData.addCart(
-                          loadedProduct.id,
-                          loadedProduct.currentPrice,
-                          loadedProduct.image,
-                          loadedProduct.name);
+                      showConfirmAddDialog(context);
                     },
                     color: Colors.red,
                     icon: Icon(

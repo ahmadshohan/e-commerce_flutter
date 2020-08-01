@@ -1,3 +1,4 @@
+import 'package:fashinshop/services/login_social.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,14 +12,15 @@ import 'all_products.dart';
 
 class ShopDrawer extends StatelessWidget {
   final firebaseAuth = FirebaseAuth.instance;
-  final fireStore = Firestore.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
 
+//  final fireStore = Firestore.instance;
+//  final GoogleSignIn googleSignIn = GoogleSignIn(
+//    scopes: [
+//      'email',
+//      'https://www.googleapis.com/auth/contacts.readonly',
+//    ],
+//  );
+//
 //  Future<void> handleGoogleSignOut() async {
 //    await firebaseAuth.signOut().then((value) {
 //      googleSignIn.signOut();
@@ -143,7 +145,6 @@ class ShopDrawer extends StatelessWidget {
           InkWell(
             onTap: () {
               firebaseAuth.signOut();
-//              handleGoogleSignOut();
             },
             child: ListTile(
               title: Text('Log out'),

@@ -21,7 +21,7 @@ class OrdersPage extends StatelessWidget {
   // }
   @override
   Widget build(BuildContext context) {
-    // final ordreData = Provider.of<Orders>(context);
+    final ordreData = Provider.of<Orders>(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0.1,
@@ -29,30 +29,42 @@ class OrdersPage extends StatelessWidget {
           title: Text('Your Orders'),
         ),
         drawer: ShopDrawer(),
-        body: FutureBuilder(
+        body: ordreData.orders.isEmpty
+            ? Center(
+                child: Text(
+                  'Not found items in your order page please add an order !',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black45,
+                    fontWeight: FontWeight.w200,
+                  ),
+                ),
+              )
+            : FutureBuilder(
 //            future:
 //                Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
-            builder: (ctx, dataSnapshot) {
-          if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (dataSnapshot.error != null) {
-              return Center(child: Text('error occured'));
-            } else {
-              return Consumer<Orders>(
-                  builder: (ctx, orderData, child) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 12),
-                        child: ListView.builder(
-                          itemCount: orderData.orders.length,
-                          itemBuilder: (ctx, i) =>
-                              SingleOrder(orderData.orders[i]),
-                        ),
-                      ));
-            }
-          }
-        }));
+                builder: (ctx, dataSnapshot) {
+                if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  if (dataSnapshot.error != null) {
+                    return Center(child: Text('error occured'));
+                  } else {
+                    return Consumer<Orders>(
+                        builder: (ctx, orderData, child) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 12),
+                              child: ListView.builder(
+                                itemCount: orderData.orders.length,
+                                itemBuilder: (ctx, i) =>
+                                    SingleOrder(orderData.orders[i]),
+                              ),
+                            ));
+                  }
+                }
+              }));
   }
 }

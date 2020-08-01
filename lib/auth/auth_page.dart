@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+//import '../services/login_social.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
@@ -19,6 +18,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final firebaseAuth = FirebaseAuth.instance;
+//  LoginSocial loginSocial = LoginSocial();
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -28,23 +28,19 @@ class _AuthPageState extends State<AuthPage> {
   final fireStore = Firestore.instance;
   FirebaseUser _user;
   SharedPreferences preferences;
-  bool isLogedin = false;
+  bool isLogedIn = false;
   AuthResult authResult;
   var _isLoading = false;
   @override
   void initState() {
     super.initState();
-    isSignedInWithGoogle();
+//    isSignedInWithGoogle();
   }
 
   void isSignedInWithGoogle() async {
-    setState(() {
-      _isLoading = true;
-    });
-
     preferences = await SharedPreferences.getInstance();
-    isLogedin = await googleSignIn.isSignedIn();
-    if (isLogedin) {
+    isLogedIn = await googleSignIn.isSignedIn();
+    if (isLogedIn) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     }
     setState(() {

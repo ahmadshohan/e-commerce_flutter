@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../provider/products.dart';
 import '../shopping_cart/shopping_cart_page.dart';
@@ -12,7 +13,6 @@ import 'products_grid.dart';
 import '../drawer/shop_drawer.dart';
 import '../drawer/all_products.dart';
 import '../shopping_cart/badge.dart';
-import '../provider/cart_item.dart';
 
 enum PopFilterOption { Favorites, All, Logout }
 
@@ -24,6 +24,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+  Future<void> handleGoogleSignOut() async {
+    await firebaseAuth.signOut().then((value) {
+      googleSignIn.signOut();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -147,6 +160,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   FirebaseAuth.instance.signOut();
+//                  handleGoogleSignOut();
+
                 }
               });
             },

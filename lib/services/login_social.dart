@@ -2,13 +2,13 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
+//
 //import '../home/home_page.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:toast/toast.dart';
 //
-//class Login extends ChangeNotifier {
+//class LoginSocial {
 //  final firebaseAuth = FirebaseAuth.instance;
 //  GoogleSignIn googleSignIn = GoogleSignIn(
 //    scopes: [
@@ -21,22 +21,16 @@
 //  SharedPreferences preferences;
 //  bool isLogedin = false;
 //  AuthResult authResult;
-//  void isSignedInWithGoogle(bool isLoading, BuildContext context) async {
-//    isLoading = true;
-//
+//  void isSignedInWithGoogle(BuildContext context) async {
 //    preferences = await SharedPreferences.getInstance();
 //    isLogedin = await googleSignIn.isSignedIn();
 //    if (isLogedin) {
 //      Navigator.pushReplacementNamed(context, HomePage.routeName);
 //    }
-//    isLoading = false;
 //  }
 //
-//  Future<void> handleGoogleSignIn(bool isLoading, BuildContext context) async {
+//  Future<void> handleGoogleSignIn(BuildContext context) async {
 //    preferences = await SharedPreferences.getInstance();
-//
-//    isLoading = true;
-//
 //    GoogleSignInAccount googleUser = await googleSignIn.signIn();
 //    GoogleSignInAuthentication googleSignInAuthentication =
 //        await googleUser.authentication;
@@ -74,8 +68,6 @@
 //      Toast.show("success login", context,
 //          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
 //
-//      isLoading = false;
-//
 //      Navigator.pushReplacementNamed(context, HomePage.routeName);
 //    } else {
 //      Toast.show("login failed", context,
@@ -83,41 +75,9 @@
 //    }
 //  }
 //
-//  void _submitAuthForm(String email, String username, String password,
-//      BuildContext ctx, bool isLogin, bool isLoading) async {
-//    try {
-//      isLoading = true;
-//
-//      if (isLogin) {
-//        authResult = await firebaseAuth.signInWithEmailAndPassword(
-//            email: email, password: password);
-//      } else {
-//        authResult = await firebaseAuth.createUserWithEmailAndPassword(
-//            email: email, password: password);
-//      }
-//    } on PlatformException catch (err) {
-//      var message = 'An error occurred ,Please check your credentials';
-//      if (err.message != null) {
-//        message = err.message;
-//      }
-//      Scaffold.of(ctx).showSnackBar(SnackBar(
-//        content: Text(message),
-//        backgroundColor: Theme.of(ctx).errorColor,
-//      ));
-//
-//      isLoading = false;
-//    } catch (err) {
-//      print(err);
-//
-//      isLoading = false;
-//    }
-//  }
-//
-//  Future<void> handleGoogleSignOut(bool isLoading) async {
+//  Future<void> handleGoogleSignOut() async {
 //    await firebaseAuth.signOut().then((value) {
 //      googleSignIn.signOut();
-//
-//      isLoading = false;
 //    });
 //  }
 //}

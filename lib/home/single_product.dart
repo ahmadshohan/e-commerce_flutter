@@ -17,11 +17,8 @@ class SingleProduct extends StatelessWidget {
       ),
       child: Material(
         child: InkWell(
-          onTap: () => Navigator.pushNamed(
-            context,
-            ProductDetails.routeName,
-            arguments: singleProduct.id,
-          ),
+          onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,
+              arguments: singleProduct.id),
           child: GridTile(
             footer: Container(
               height: 50,
