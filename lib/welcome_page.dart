@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './auth/auth_page.dart';
-import 'constants.dart';
+import 'components/constants.dart';
 
 class WelcomePage extends StatelessWidget {
   static const routeName = '/welcome-page';

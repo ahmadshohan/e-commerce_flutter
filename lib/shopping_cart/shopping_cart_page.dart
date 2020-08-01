@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/products.dart';
 import '../home/home_page.dart';
-
+import '../provider/orders.dart';
 import 'product_cart.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -14,7 +14,8 @@ class ShoppingCart extends StatefulWidget {
 class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Products>(context);
+    final cart = Provider.of<Products>(context, listen: false);
+    final cartItems = Provider.of<Products>(context).cartItems;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.1,
@@ -39,73 +40,96 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: cart.cartItems.length,
-          itemBuilder: (ctx, index) => SingleProductCart(
-            id: cart.cartItems.values.toList()[index].id,
-            title: cart.cartItems.values.toList()[index].title,
-            image: cart.cartItems.values.toList()[index].image,
-            price: cart.cartItems.values.toList()[index].price,
-            quantity: cart.cartItems.values.toList()[index].quantity,
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
-            children: <Widget>[
-              Text(
-                'Total :',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+      body: cartItems.isEmpty
+          ? Center(
+              child: Text(
+                "Not found items in your cart please add products !",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w200,
+                ),
               ),
-              SizedBox(
-                width: 5,
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: cart.cartItems.length,
+                itemBuilder: (ctx, index) => SingleProductCart(
+                  cartId: cart.cartItems.values.toList()[index].id,
+                  productId: cart.cartItems.keys.toList()[index],
+                  title: cart.cartItems.values.toList()[index].title,
+                  image: cart.cartItems.values.toList()[index].image,
+                  price: cart.cartItems.values.toList()[index].price,
+                  quantity: cart.cartItems.values.toList()[index].quantity,
+                ),
               ),
-              Chip(
-                label: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: '${cart.totalAmount} ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
+            ),
+      bottomNavigationBar: cartItems.isEmpty
+          ? null
+          : Container(
+              color: Colors.white,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Total :',
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Chip(
+                      label: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: '${cart.totalAmount} ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'LL',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          )
+                        ]),
                       ),
                     ),
-                    TextSpan(
-                      text: 'LL',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
+                    Spacer(),
+                    MaterialButton(
+                      elevation: 10,
+                      shape: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )
-                  ]),
+                      onPressed: () {
+                        Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.cartItems.values.toList(),
+                          cart.totalAmount,
+                        );
+                        cart.clear();
+                      },
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      child: Text(
+                        'ORDER NOW',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Spacer(),
-              MaterialButton(
-                elevation: 10,
-                shape: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                onPressed: () {},
-                color: Colors.red,
-                textColor: Colors.white,
-                child: Text(
-                  'ORDER NOW',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

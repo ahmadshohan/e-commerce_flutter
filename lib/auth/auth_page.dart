@@ -34,7 +34,7 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
-//    isSignedInWithGoogle();
+    isSignedInWithGoogle();
   }
 
   void isSignedInWithGoogle() async {

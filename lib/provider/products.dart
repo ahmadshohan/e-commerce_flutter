@@ -1,6 +1,30 @@
 import 'package:flutter/cupertino.dart';
-import 'product.dart';
 import 'cart_item.dart';
+
+class Product with ChangeNotifier {
+  final String id;
+  final String category;
+  final String name;
+  final String descreption;
+  final String image;
+  final oldPrice;
+  final currentPrice;
+  bool isFavorite;
+  Product(
+      {@required this.id,
+      @required this.name,
+      @required this.category,
+      @required this.descreption,
+      @required this.image,
+      @required this.oldPrice,
+      @required this.currentPrice,
+      this.isFavorite = false});
+
+  void toggleFavoriteStatus() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
+}
 
 class Products with ChangeNotifier {
   List<Product> _productsList = [
@@ -416,13 +440,15 @@ class Products with ChangeNotifier {
               quantity: existingCartItem.quantity + 1));
     } else {
       _cartItems.putIfAbsent(
-          productId,
-          () => CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              image: image,
-              quantity: 1));
+        productId,
+        () => CartItem(
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          image: image,
+          quantity: 1,
+        ),
+      );
     }
     notifyListeners();
   }
@@ -432,7 +458,7 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingelItem(String productId) {
+  void removeSingleItem(String productId) {
     if (!_cartItems.containsKey(productId)) {
       return;
     }

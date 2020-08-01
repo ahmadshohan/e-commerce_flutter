@@ -33,8 +33,9 @@ class FavoritesPage extends StatelessWidget {
                 'No favorites yet please add an favorites',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w200,
                 ),
               ),
             )

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'about_us.dart';
-import '../shopping_cart/shopping_cart_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'about_us.dart';
+import 'orders/orders_page.dart';
+import '../shopping_cart/shopping_cart_page.dart';
 import 'favorites_page.dart';
 import '../home/home_page.dart';
 import 'all_products.dart';
@@ -68,7 +69,9 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, OrdersPage.routeName);
+            },
             child: ListTile(
               title: Text('My Orders'),
               leading: Icon(

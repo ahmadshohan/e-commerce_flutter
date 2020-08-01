@@ -76,10 +76,10 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final product =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final productCategory = product['category'];
+    final productId = ModalRoute.of(context).settings.arguments as String;
     final productsData = Provider.of<Products>(context);
+    final loadedProduct = productsData.findById(productId);
+    final productCategory = loadedProduct.category;
     final productList = productsData.productsList;
     final productsFilterd = productList.where((product) {
       return product.category.contains(productCategory);
@@ -89,7 +89,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Colors.red,
-        title: Text(product['name']),
+        title: Text(loadedProduct.name),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -129,7 +129,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Container(
                     color: Colors.white,
                     child: Image.asset(
-                      product['image'],
+                      loadedProduct.image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -142,7 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                product['name'],
+                                loadedProduct.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 17,
@@ -157,7 +157,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: "${product['oldPrice']}",
+                                    text: "${loadedProduct.oldPrice}",
                                     style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       decorationColor: Colors.red,
@@ -180,7 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: "${product['currentPrice']}",
+                                    text: "${loadedProduct.currentPrice}",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -274,10 +274,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        loadedProduct.toggleFavoriteStatus();
+                      });
+                    },
                     color: Colors.red,
                     icon: Icon(
-                      product['favorites']
+                      loadedProduct.isFavorite
                           ? Icons.favorite
                           : Icons.favorite_border,
                     ),
@@ -285,10 +289,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                   IconButton(
                     onPressed: () {
                       productsData.addCart(
-                          product['id'],
-                          product['currentPrice'],
-                          product['image'],
-                          product['name']);
+                          loadedProduct.id,
+                          loadedProduct.currentPrice,
+                          loadedProduct.image,
+                          loadedProduct.name);
                     },
                     color: Colors.red,
                     icon: Icon(
@@ -302,7 +306,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 title: Text(
                   'Product details',
                 ),
-                subtitle: Text(product['decription']),
+                subtitle: Text(loadedProduct.descreption),
               ),
               Divider(),
               Row(
@@ -315,7 +319,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   Text(
-                    '${product['name']}',
+                    '${loadedProduct.name}',
                     style: TextStyle(color: Colors.black),
                   )
                 ],

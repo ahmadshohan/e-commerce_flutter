@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../components/constants.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class AuthForm extends StatefulWidget {
@@ -346,7 +347,7 @@ class _AuthFormState extends State<AuthForm>
                                           }),
                                     if (widget.isLoading)
                                       Center(
-                                        child: CircularProgressIndicator(),
+                                        child: kSpinkit,
                                       ),
                                     if (!widget.isLoading)
                                       RaisedButton(
@@ -372,23 +373,60 @@ class _AuthFormState extends State<AuthForm>
                                           onPressed: _trySubmet),
                                     if (!widget.isLoading)
                                       FlatButton(
-                                        textColor:
-                                            Theme.of(context).primaryColor,
-                                        onPressed: () {
-                                          setState(() {
-                                            _isLogin = !_isLogin;
-                                          });
-                                        },
-                                        child: Text(
-                                          _isLogin
-                                              ? 'Create new account'
-                                              : 'I already have an acount',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 17,
-                                          ),
-                                        ),
-                                      ),
+                                          textColor:
+                                              Theme.of(context).primaryColor,
+                                          onPressed: () {
+                                            setState(() {
+                                              _isLogin = !_isLogin;
+                                            });
+                                          },
+                                          child: _isLogin
+                                              ? RichText(
+                                                  text: TextSpan(children: [
+                                                    TextSpan(
+                                                      text:
+                                                          'Dont have an account? ',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 17,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: 'Signup',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 17,
+                                                      ),
+                                                    )
+                                                  ]),
+                                                )
+                                              : RichText(
+                                                  text: TextSpan(children: [
+                                                    TextSpan(
+                                                      text:
+                                                          'I already have account?  ',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 17,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: 'Login',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 17,
+                                                      ),
+                                                    )
+                                                  ]),
+                                                )),
                                   ],
                                 ),
                               ),
@@ -400,7 +438,7 @@ class _AuthFormState extends State<AuthForm>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Colors.black,
                                 ),
                               ),
                             if (!_isLogin)

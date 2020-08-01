@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/product.dart';
 import '../provider/products.dart';
 import '../product_detail/product_details_page.dart';
 
@@ -21,21 +20,17 @@ class SingleProduct extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             ProductDetails.routeName,
-            arguments: {
-              'id': singleProduct.id,
-              'name': singleProduct.name,
-              'decription': singleProduct.descreption,
-              'category': singleProduct.category,
-              'image': singleProduct.image,
-              'favorites': singleProduct.isFavorite,
-              'currentPrice': singleProduct.currentPrice,
-              'oldPrice': singleProduct.oldPrice,
-            },
+            arguments: singleProduct.id,
           ),
           child: GridTile(
             footer: Container(
               height: 50,
-              color: Colors.black26,
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(18),
+                ),
+              ),
               child: Row(children: <Widget>[
                 SizedBox(
                   width: 5,
@@ -71,19 +66,51 @@ class SingleProduct extends StatelessWidget {
                       ),
                       onPressed: () {
                         product.addCart(
-                            singleProduct.id,
-                            singleProduct.currentPrice,
-                            singleProduct.image,
-                            singleProduct.name);
+                          singleProduct.id,
+                          singleProduct.currentPrice,
+                          singleProduct.image,
+                          singleProduct.name,
+                        );
+                        Scaffold.of(context).hideCurrentSnackBar();
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Added item to cart',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                            duration: Duration(
+                              seconds: 3,
+                            ),
+                            elevation: 3,
+                            action: SnackBarAction(
+                              label: 'UNDO',
+                              onPressed: () {
+                                product.removeSingleItem(
+                                  singleProduct.id,
+                                );
+                              },
+                            ),
+                          ),
+                        );
                       },
                     )
                   ],
                 ),
               ]),
             ),
-            child: Image.asset(
-              singleProduct.image,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(
+                  18,
+                ),
+              ),
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: AssetImage('images/placeholder.png'),
+                image: AssetImage(
+                  singleProduct.image,
+                ),
+              ),
             ),
           ),
         ),

@@ -114,10 +114,57 @@ void showErrorDialog(String message, BuildContext context) {
             content: Text(message),
             actions: <Widget>[
               FlatButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text('Okay'))
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'),
+              )
+            ],
+          ));
+}
+
+Future<bool> showConfirmDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text(
+              'Are you sure?',
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text('Do you want to remove the item from the cart?'),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.red,
+                shape: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                child: Text(
+                  'Yes',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+              FlatButton(
+                color: Colors.black12,
+                shape: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ],
           ));
 }
