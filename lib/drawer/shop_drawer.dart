@@ -1,4 +1,4 @@
-import 'package:fashinshop/services/login_social.dart';
+import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,20 +34,22 @@ class ShopDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text('A7mad Sho7an'),
-            accountEmail: Text('ahmad.shohan523@gmail.com'),
-            currentAccountPicture: GestureDetector(
-              onTap: () {},
-              child: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
+            accountName: Text(
+              'Style-ecorner',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
+            accountEmail: Text('Online boutique'),
+            currentAccountPicture: GestureDetector(
+              onTap: () {},
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset('images/logo.jpeg')),
+            ),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: Colors.black54,
             ),
           ),
           InkWell(
@@ -145,6 +147,7 @@ class ShopDrawer extends StatelessWidget {
           InkWell(
             onTap: () {
               firebaseAuth.signOut();
+              Navigator.of(context).pushReplacementNamed(WelcomePage.routeName);
             },
             child: ListTile(
               title: Text('Log out'),

@@ -25,6 +25,8 @@ dependencies:
   image_picker: ^0.6.7+1
   animated_text_kit: ^2.2.0
   flutter_spinkit: ^4.1.2
+  flutter_open_whatsapp: ^0.1.2
+  url_launcher: ^5.4.1
 
 
 dev_dependencies:

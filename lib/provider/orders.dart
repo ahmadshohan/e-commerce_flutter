@@ -1,16 +1,22 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'cart_item.dart';
 
+final fireStore = Firestore.instance;
+final firebaseAuth = FirebaseAuth.instance;
+
 class OrderItem {
   final String id;
-  final int amount;
+  final int amount, quantity;
   final DateTime dateTime;
   final List<CartItem> products;
   OrderItem(
       {@required this.id,
+      this.quantity,
       @required this.amount,
       @required this.dateTime,
       @required this.products});
@@ -21,7 +27,7 @@ class Orders with ChangeNotifier {
   List<OrderItem> get orders {
     return [..._orders];
   }
-
+//
 //  final String authToken;
 //  String userId;
 //  Orders(this.authToken, this.userId, this._orders);
@@ -50,42 +56,42 @@ class Orders with ChangeNotifier {
 //    notifyListeners();
 //  }
 
-//  Future<void> addOrder(List<CartItem> productsCart, double total) async {
+  Future<void> addOrder(List<CartItem> productsCart, int total) async {
 //    final url =
 //        'https://flutter-update-ad533.firebaseio.com/orders/$userId.json?auth=$authToken';
-//    final timestamp = DateTime.now();
-//    final response = await http.post(url,
-//        body: json.encode({
-//          'amount': total,
-//          'dateTime': timestamp.toIso8601String(),
-//          'products': productsCart
-//              .map((cp) => {
-//                    'id': cp.id,
-//                    'title': cp.title,
-//                    'price': cp.price,
-//                    'quantity': cp.quantity
-//                  })
-//              .toList()
-//        }));
-//    _orders.insert(
-//        0,
-//        OrderItem(
-//            id: json.decode(response.body)['name'],
-//            amount: total,
-//            dateTime: timestamp,
-//            products: productsCart));
-//    notifyListeners();
-//  }
-
-  void addOrder(List<CartItem> productsCart, int total) async {
+    FirebaseUser _user = await firebaseAuth.currentUser();
+    final timestamp = DateTime.now();
+    await fireStore.collection('orders').document().setData({
+      'total': total,
+      'dateTime': timestamp.toIso8601String(),
+      'products': productsCart
+          .map((cp) => {
+                'id': cp.id,
+                'title': cp.title,
+                'price': cp.price,
+                'quantity': cp.quantity
+              })
+          .toList()
+    });
     _orders.insert(
-      0,
-      OrderItem(
-          id: DateTime.now().toString(),
-          amount: total,
-          dateTime: DateTime.now(),
-          products: productsCart),
-    );
+        0,
+        OrderItem(
+            id: timestamp.toString(),
+            amount: total,
+            dateTime: timestamp,
+            products: productsCart));
     notifyListeners();
   }
+
+//  void addOrder(List<CartItem> productsCart, int total) async {
+//    _orders.insert(
+//      0,
+//      OrderItem(
+//          id: DateTime.now().toString(),
+//          amount: total,
+//          dateTime: DateTime.now(),
+//          products: productsCart),
+//    );
+//    notifyListeners();
+//  }
 }

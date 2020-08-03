@@ -362,11 +362,13 @@ class _AuthFormState extends State<AuthForm>
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 115,
                                             ),
-                                            child: Text(
-                                              _isLogin ? 'Login' : 'Signup',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                            child: FittedBox(
+                                              child: Text(
+                                                _isLogin ? 'Login' : 'Signup',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                ),
                                               ),
                                             ),
                                           ),

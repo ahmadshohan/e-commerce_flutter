@@ -28,72 +28,76 @@ class SingleProduct extends StatelessWidget {
                   bottom: Radius.circular(18),
                 ),
               ),
-              child: Row(children: <Widget>[
-                SizedBox(
-                  width: 5,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
                 ),
-                Expanded(
-                  child: Text(
-                    singleProduct.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                child: Row(children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Text(
+                          singleProduct.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () {
-                        singleProduct.toggleFavoriteStatus();
-                      },
-                      icon: Icon(
-                        singleProduct.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: Colors.red,
-                        size: 28,
-                      ),
+                  IconButton(
+                    onPressed: () {
+                      singleProduct.toggleFavoriteStatus();
+                    },
+                    icon: Icon(
+                      singleProduct.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: Colors.red,
+                      size: 28,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.shopping_cart,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        product.addCart(
-                          singleProduct.id,
-                          singleProduct.currentPrice,
-                          singleProduct.image,
-                          singleProduct.name,
-                        );
-                        Scaffold.of(context).hideCurrentSnackBar();
-                        Scaffold.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Added item to cart',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                            duration: Duration(
-                              seconds: 3,
-                            ),
-                            elevation: 3,
-                            action: SnackBarAction(
-                              label: 'UNDO',
-                              onPressed: () {
-                                product.removeSingleItem(
-                                  singleProduct.id,
-                                );
-                              },
-                            ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      product.addCart(
+                        productId: singleProduct.id,
+                        title: singleProduct.name,
+                        image: singleProduct.image,
+                        price: singleProduct.currentPrice,
+                      );
+                      Scaffold.of(context).hideCurrentSnackBar();
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Added item to cart',
+                            style: TextStyle(fontSize: 17),
                           ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ]),
+                          duration: Duration(
+                            seconds: 3,
+                          ),
+                          elevation: 3,
+                          action: SnackBarAction(
+                            label: 'UNDO',
+                            onPressed: () {
+                              product.removeSingleItem(
+                                singleProduct.id,
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ]),
+              ),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(

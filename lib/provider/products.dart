@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'cart_item.dart';
 
 class Product with ChangeNotifier {
-  final String id;
-  final String category;
-  final String name;
-  final String descreption;
-  final String image;
+  final String id, category, name, descreption, image, color, size;
   final oldPrice;
   final currentPrice;
   bool isFavorite;
@@ -14,6 +10,8 @@ class Product with ChangeNotifier {
       {@required this.id,
       @required this.name,
       @required this.category,
+      this.color,
+      this.size,
       @required this.descreption,
       @required this.image,
       @required this.oldPrice,
@@ -407,13 +405,14 @@ class Products with ChangeNotifier {
     return _productsList.where((prod) => prod.isFavorite).toList();
   }
 
+  Product findById(String id) {
+    return _productsList.firstWhere((prod) => prod.id == id);
+  }
+
+  //*******************************cartData******************
   Map<String, CartItem> _cartItems = {};
   Map<String, CartItem> get cartItems {
     return {..._cartItems};
-  }
-
-  Product findById(String id) {
-    return _productsList.firstWhere((prod) => prod.id == id);
   }
 
   int get itemCount {
@@ -428,13 +427,21 @@ class Products with ChangeNotifier {
     return total;
   }
 
-  void addCart(String productId, int price, String image, String title) {
+  void addCart(
+      {String productId,
+      int price,
+      String color = 'red',
+      String size = 'small',
+      String image,
+      String title}) {
     if (cartItems.containsKey(productId)) {
       _cartItems.update(
           productId,
           (existingCartItem) => CartItem(
               id: existingCartItem.id,
               title: existingCartItem.title,
+              color: existingCartItem.color,
+              size: existingCartItem.size,
               price: existingCartItem.price,
               image: existingCartItem.image,
               quantity: existingCartItem.quantity + 1));
@@ -444,6 +451,8 @@ class Products with ChangeNotifier {
         () => CartItem(
           id: DateTime.now().toString(),
           title: title,
+          color: color,
+          size: size,
           price: price,
           image: image,
           quantity: 1,

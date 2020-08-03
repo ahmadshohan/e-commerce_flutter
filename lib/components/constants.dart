@@ -168,3 +168,20 @@ Future<bool> showConfirmDialog(BuildContext context) {
             ],
           ));
 }
+
+Future<bool> showSuccessDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text(
+              'Success order',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            content: Text(
+              'Your order has been successfully added',
+            ),
+          ));
+}

@@ -1,6 +1,6 @@
-const List<String> sizesList = ['small', 'medium', 'large'];
-const List<String> colorsList = ['red', 'green', 'black'];
-const List<String> quantityList = ['1', '2', '3', '4', '5'];
+const List<String> sizesList = ['small', 'medium', 'large', 'x-large'];
+const List<String> colorsList = ['red', 'green', 'blue', 'black'];
+const List<String> quantityList = ['1', '2', '3', '4', '5', '6', '7', '8'];
 const blazarDetail =
     "A natural fiber lining on the inside of a suit jacket is a sign of quality Bemberg is a natural form of rayon made from cotton linter.  Its considered the king of linings as its, relatively inexpensive and easy to find";
 List<Map<String, dynamic>> productsCartList = [

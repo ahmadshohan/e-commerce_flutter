@@ -3,20 +3,42 @@ import 'package:provider/provider.dart';
 import '../provider/products.dart';
 import '../components/constants.dart';
 
-class SingleProductCart extends StatelessWidget {
-  final String cartId;
-  final String productId;
-  final String title;
-  final String image;
-  final int price;
-  final int quantity;
-  SingleProductCart(
-      {this.cartId,
-      this.productId,
-      this.title,
-      this.image,
-      this.price,
-      this.quantity});
+class SingleProductCart extends StatefulWidget {
+  final String cartId, productId, title, color, size, image;
+  int price, quantity;
+
+  SingleProductCart({
+    this.cartId,
+    this.productId,
+    this.title,
+    this.color,
+    this.size,
+    this.image,
+    this.price,
+    this.quantity,
+  });
+
+  @override
+  _SingleProductCartState createState() => _SingleProductCartState();
+}
+
+class _SingleProductCartState extends State<SingleProductCart> {
+  void handleQuantityDecreased() {
+    setState(() {
+      if (widget.quantity > 1) {
+        widget.quantity = widget.quantity - 1;
+      } else {
+        widget.quantity = 1;
+      }
+    });
+  }
+
+  void handleQuantityIncreased() {
+    setState(() {
+      widget.quantity = widget.quantity + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,10 +46,11 @@ class SingleProductCart extends StatelessWidget {
         top: 4,
       ),
       child: Dismissible(
-        key: ValueKey(cartId),
+        key: ValueKey(widget.cartId),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          Provider.of<Products>(context, listen: false).removeItem(productId);
+          Provider.of<Products>(context, listen: false)
+              .removeItem(widget.productId);
         },
         confirmDismiss: (direction) {
           return showConfirmDialog(context);
@@ -64,7 +87,7 @@ class SingleProductCart extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    image,
+                    widget.image,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -77,7 +100,7 @@ class SingleProductCart extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          title,
+                          widget.title,
                           textAlign: TextAlign.right,
                           maxLines: 1,
                           style: TextStyle(
@@ -92,7 +115,7 @@ class SingleProductCart extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(4),
                               child: Text(
-                                'M',
+                                widget.size,
                                 style: TextStyle(
                                   color: Colors.red,
                                 ),
@@ -107,7 +130,7 @@ class SingleProductCart extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(4),
                               child: Text(
-                                'M',
+                                widget.color,
                                 style: TextStyle(
                                   color: Colors.red,
                                 ),
@@ -128,7 +151,7 @@ class SingleProductCart extends StatelessWidget {
                               label: RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: '$price ',
+                                    text: '${widget.price} ',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
@@ -158,7 +181,7 @@ class SingleProductCart extends StatelessWidget {
                               label: RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: '${price * quantity} ',
+                                    text: '${widget.price * widget.quantity} ',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
@@ -186,16 +209,14 @@ class SingleProductCart extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.arrow_drop_up),
-                    onPressed: () {},
-                  ),
+                      icon: Icon(Icons.arrow_drop_up),
+                      onPressed: handleQuantityIncreased),
                   Text(
-                    "$quantity X",
+                    "${widget.quantity} X",
                   ),
                   IconButton(
-                    icon: Icon(Icons.arrow_drop_down),
-                    onPressed: () {},
-                  ),
+                      icon: Icon(Icons.arrow_drop_down),
+                      onPressed: handleQuantityDecreased),
                 ],
               ),
             ],

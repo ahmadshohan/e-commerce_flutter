@@ -160,6 +160,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   FirebaseAuth.instance.signOut();
+                  Navigator.pop(context, false);
 //                  handleGoogleSignOut();
 
                 }

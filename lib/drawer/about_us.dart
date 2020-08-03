@@ -1,5 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class AboutUs extends StatelessWidget {
   static const routeName = '/about-us';
@@ -79,6 +79,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
             ),
+            Divider(),
           ],
         ),
       ),

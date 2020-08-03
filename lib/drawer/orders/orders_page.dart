@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../shop_drawer.dart';
 import 'package:fashinshop/provider/orders.dart';
+import '../all_products.dart';
 import 'single_order.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -23,48 +24,61 @@ class OrdersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ordreData = Provider.of<Orders>(context);
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.1,
-          backgroundColor: Colors.red,
-          title: Text('Your Orders'),
-        ),
-        drawer: ShopDrawer(),
-        body: ordreData.orders.isEmpty
-            ? Center(
-                child: Text(
-                  'Not found items in your order page please add an order !',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black45,
-                    fontWeight: FontWeight.w200,
-                  ),
+      appBar: AppBar(
+        elevation: 0.1,
+        backgroundColor: Colors.red,
+        title: Text('Your Orders'),
+      ),
+      drawer: ShopDrawer(),
+      body: ordreData.orders.isEmpty
+          ? Center(
+              child: Text(
+                'Not found items in your order page please add an order !',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w200,
                 ),
-              )
-            : FutureBuilder(
+              ),
+            )
+          : FutureBuilder(
 //            future:
 //                Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
-                builder: (ctx, dataSnapshot) {
-                if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+              builder: (ctx, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (dataSnapshot.error != null) {
+                  return Center(child: Text('error occured'));
                 } else {
-                  if (dataSnapshot.error != null) {
-                    return Center(child: Text('error occured'));
-                  } else {
-                    return Consumer<Orders>(
-                        builder: (ctx, orderData, child) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 12),
-                              child: ListView.builder(
-                                itemCount: orderData.orders.length,
-                                itemBuilder: (ctx, i) =>
-                                    SingleOrder(orderData.orders[i]),
-                              ),
-                            ));
-                  }
+                  return Consumer<Orders>(
+                    builder: (ctx, orderData, child) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 12),
+                      child: ListView.builder(
+                        itemCount: orderData.orders.length,
+                        itemBuilder: (ctx, i) =>
+                            SingleOrder(orderData.orders[i]),
+                      ),
+                    ),
+                  );
                 }
-              }));
+              }
+            }),
+      floatingActionButton: ordreData.orders.isEmpty
+          ? FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, AllProducts.routeName);
+              },
+            )
+          : null,
+    );
   }
 }

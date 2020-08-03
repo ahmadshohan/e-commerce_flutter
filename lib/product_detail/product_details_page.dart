@@ -4,7 +4,8 @@ import '../home/home_page.dart';
 import '../home/products_grid.dart';
 import '../provider/products.dart';
 import '../components/data_lists.dart';
-import '../components/constants.dart';
+import '../shopping_cart/badge.dart';
+import '../shopping_cart/shopping_cart_page.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/product-detail';
@@ -103,16 +104,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     onPressed: () {
                       productsData.addCart(
-                          loadedProduct.id,
-                          loadedProduct.currentPrice,
-                          loadedProduct.image,
-                          loadedProduct.name);
+                        productId: loadedProduct.id,
+                        title: loadedProduct.name,
+                        color: selectColor,
+                        price: loadedProduct.currentPrice,
+                        image: loadedProduct.image,
+                        size: selectSize,
+                      );
                       Navigator.of(ctx).pop(true);
                     },
                     child: Text(
-                      'Yes',
+                      'Continue',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
                   FlatButton(
@@ -125,9 +129,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                       Navigator.of(ctx).pop(false);
                     },
                     child: Text(
-                      'No',
+                      'Undo',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
@@ -149,6 +153,23 @@ class _ProductDetailsState extends State<ProductDetails> {
               color: Colors.white,
             ),
             onPressed: () {},
+          ),
+          Consumer<Products>(
+            builder: (_, productCart, ch) => Badge(
+              child: ch,
+              value: productCart.itemCount.toString(),
+            ),
+            child: IconButton(
+              padding: const EdgeInsets.only(right: 10),
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                ShoppingCart.routeName,
+              ),
+            ),
           ),
           IconButton(
             padding: const EdgeInsets.only(right: 10),
@@ -382,22 +403,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   Text(
-                    'brand X',
-                    style: TextStyle(color: Colors.black),
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),
-                    child: Text(
-                      'Product condition :',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  Text(
-                    'New',
+                    'Turkish brand ',
                     style: TextStyle(color: Colors.black),
                   )
                 ],

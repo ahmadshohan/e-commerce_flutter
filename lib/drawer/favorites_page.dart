@@ -1,7 +1,11 @@
+import 'package:fashinshop/drawer/all_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import '../shopping_cart/badge.dart';
+import '../home/home_page.dart';
+import '../shopping_cart/shopping_cart_page.dart';
 import '../provider/products.dart';
 import '../home/products_grid.dart';
 
@@ -26,6 +30,41 @@ class FavoritesPage extends StatelessWidget {
             fontWeight: FontWeight.normal,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+          Consumer<Products>(
+            builder: (_, productCart, ch) => Badge(
+              child: ch,
+              value: productCart.itemCount.toString(),
+            ),
+            child: IconButton(
+              padding: const EdgeInsets.only(right: 10),
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                ShoppingCart.routeName,
+              ),
+            ),
+          ),
+          IconButton(
+            padding: const EdgeInsets.only(right: 10),
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, HomePage.routeName),
+          ),
+        ],
       ),
       body: productsData.isEmpty
           ? Center(
@@ -40,6 +79,17 @@ class FavoritesPage extends StatelessWidget {
               ),
             )
           : ProductsGrid(productsData),
+      floatingActionButton: productsData.isEmpty
+          ? FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, AllProducts.routeName);
+              },
+            )
+          : null,
     );
   }
 }

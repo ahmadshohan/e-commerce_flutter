@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import './auth/auth_page.dart';
 import 'drawer/about_us.dart';
@@ -14,7 +15,14 @@ import './provider/products.dart';
 import './provider/orders.dart';
 import 'splash_page.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(
+    MyApp(),
+  );
+}
 
 class MyApp extends StatefulWidget {
   @override
