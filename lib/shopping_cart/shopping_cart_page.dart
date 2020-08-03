@@ -76,7 +76,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ),
         ],
       ),
-      body: cartItems.isEmpty
+      body: cartItems.isEmpty || cart.totalAmount == 0
           ? Center(
               child: Text(
                 'Not found items in your cart please add products !',
@@ -104,7 +104,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ),
             ),
-      floatingActionButton: cartItems.isEmpty
+      floatingActionButton: cartItems.isEmpty || cart.totalAmount == 0
           ? Container(
               alignment: Alignment.bottomRight,
               margin: EdgeInsets.only(

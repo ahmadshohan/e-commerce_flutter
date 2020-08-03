@@ -23,20 +23,18 @@ class SingleProductCart extends StatefulWidget {
 }
 
 class _SingleProductCartState extends State<SingleProductCart> {
-  void handleQuantityDecreased() {
-    setState(() {
-      if (widget.quantity > 1) {
-        widget.quantity = widget.quantity - 1;
-      } else {
-        widget.quantity = 1;
-      }
-    });
-  }
-
-  void handleQuantityIncreased() {
-    setState(() {
-      widget.quantity = widget.quantity + 1;
-    });
+  bool isInit = true;
+  var cart;
+  var cartItems;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (isInit) {
+      cart = Provider.of<Products>(
+        context,
+      );
+      cartItems = cart.cartItems;
+      isInit = false;
+    }
   }
 
   @override
@@ -210,13 +208,17 @@ class _SingleProductCartState extends State<SingleProductCart> {
                 children: <Widget>[
                   IconButton(
                       icon: Icon(Icons.arrow_drop_up),
-                      onPressed: handleQuantityIncreased),
+                      onPressed: () {
+                        cart.increaseQuantity(widget.productId);
+                      }),
                   Text(
                     "${widget.quantity} X",
                   ),
                   IconButton(
                       icon: Icon(Icons.arrow_drop_down),
-                      onPressed: handleQuantityDecreased),
+                      onPressed: () {
+                        cart.decreaseQuantity(widget.productId);
+                      }),
                 ],
               ),
             ],

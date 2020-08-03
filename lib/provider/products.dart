@@ -427,6 +427,40 @@ class Products with ChangeNotifier {
     return total;
   }
 
+  void increaseQuantity(String productId) {
+    if (_cartItems.containsKey(productId)) {
+      _cartItems.update(
+          productId,
+          (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              color: existingCartItem.color,
+              size: existingCartItem.size,
+              price: existingCartItem.price,
+              image: existingCartItem.image,
+              quantity: existingCartItem.quantity + 1));
+      notifyListeners();
+    }
+  }
+
+  void decreaseQuantity(String productId) {
+    if (_cartItems.containsKey(productId)) {
+      _cartItems.update(productId, (existingCartItem) {
+        return CartItem(
+            id: existingCartItem.id,
+            title: existingCartItem.title,
+            color: existingCartItem.color,
+            size: existingCartItem.size,
+            price: existingCartItem.price,
+            image: existingCartItem.image,
+            quantity: existingCartItem.quantity > 1
+                ? existingCartItem.quantity - 1
+                : 1);
+      });
+      notifyListeners();
+    }
+  }
+
   void addCart(
       {String productId,
       int price,
