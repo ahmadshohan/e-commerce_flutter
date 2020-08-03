@@ -62,16 +62,16 @@ class ShopDrawer extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              title: Text('My account'),
-              leading: Icon(
-                Icons.person,
-                color: Colors.red,
-              ),
-            ),
-          ),
+//          InkWell(
+//            onTap: () {},
+//            child: ListTile(
+//              title: Text('My account'),
+//              leading: Icon(
+//                Icons.person,
+//                color: Colors.red,
+//              ),
+//            ),
+//          ),
           InkWell(
             onTap: () {
               Navigator.pushNamed(context, OrdersPage.routeName);

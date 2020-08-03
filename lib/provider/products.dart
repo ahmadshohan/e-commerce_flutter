@@ -427,7 +427,7 @@ class Products with ChangeNotifier {
     return total;
   }
 
-  void increaseQuantity(String productId) {
+  void increaseCartItemQuantity(String productId) {
     if (_cartItems.containsKey(productId)) {
       _cartItems.update(
           productId,
@@ -443,7 +443,7 @@ class Products with ChangeNotifier {
     }
   }
 
-  void decreaseQuantity(String productId) {
+  void decreaseCartItemQuantity(String productId) {
     if (_cartItems.containsKey(productId)) {
       _cartItems.update(productId, (existingCartItem) {
         return CartItem(
@@ -466,6 +466,7 @@ class Products with ChangeNotifier {
       int price,
       String color = 'red',
       String size = 'small',
+      int quantity,
       String image,
       String title}) {
     if (cartItems.containsKey(productId)) {
@@ -480,18 +481,17 @@ class Products with ChangeNotifier {
               image: existingCartItem.image,
               quantity: existingCartItem.quantity + 1));
     } else {
-      _cartItems.putIfAbsent(
-        productId,
-        () => CartItem(
+      _cartItems.putIfAbsent(productId, () {
+        return CartItem(
           id: DateTime.now().toString(),
           title: title,
           color: color,
           size: size,
           price: price,
           image: image,
-          quantity: 1,
-        ),
-      );
+          quantity: quantity,
+        );
+      });
     }
     notifyListeners();
   }

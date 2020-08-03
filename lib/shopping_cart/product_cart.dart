@@ -209,7 +209,7 @@ class _SingleProductCartState extends State<SingleProductCart> {
                   IconButton(
                       icon: Icon(Icons.arrow_drop_up),
                       onPressed: () {
-                        cart.increaseQuantity(widget.productId);
+                        cart.increaseCartItemQuantity(widget.productId);
                       }),
                   Text(
                     "${widget.quantity} X",
@@ -217,7 +217,7 @@ class _SingleProductCartState extends State<SingleProductCart> {
                   IconButton(
                       icon: Icon(Icons.arrow_drop_down),
                       onPressed: () {
-                        cart.decreaseQuantity(widget.productId);
+                        cart.decreaseCartItemQuantity(widget.productId);
                       }),
                 ],
               ),

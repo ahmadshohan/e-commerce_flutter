@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import '../shop_drawer.dart';
+import 'package:fashinshop/home/home_page.dart';
 import 'package:fashinshop/provider/orders.dart';
 import '../all_products.dart';
 import 'single_order.dart';
@@ -28,6 +29,17 @@ class OrdersPage extends StatelessWidget {
         elevation: 0.1,
         backgroundColor: Colors.red,
         title: Text('Your Orders'),
+        actions: <Widget>[
+          IconButton(
+            padding: const EdgeInsets.only(right: 10),
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, HomePage.routeName),
+          ),
+        ],
       ),
       drawer: ShopDrawer(),
       body: ordreData.orders.isEmpty

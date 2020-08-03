@@ -4,7 +4,7 @@ class CartItem {
   final String id, title, color, size;
   final int price;
   final String image;
-  int quantity;
+  int quantity = 0;
   CartItem(
       {@required this.id,
       @required this.title,

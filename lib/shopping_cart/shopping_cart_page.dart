@@ -104,7 +104,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ),
             ),
-      floatingActionButton: cartItems.isEmpty || cart.totalAmount == 0
+      floatingActionButton: cartItems.isEmpty
           ? Container(
               alignment: Alignment.bottomRight,
               margin: EdgeInsets.only(

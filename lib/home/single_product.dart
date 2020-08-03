@@ -70,6 +70,7 @@ class SingleProduct extends StatelessWidget {
                       product.addCart(
                         productId: singleProduct.id,
                         title: singleProduct.name,
+                        quantity: 1,
                         image: singleProduct.image,
                         price: singleProduct.currentPrice,
                       );

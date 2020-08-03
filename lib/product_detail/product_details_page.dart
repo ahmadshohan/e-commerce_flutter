@@ -17,7 +17,7 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   String selectSize = 'small';
   String selectColor = 'red';
-  String selectQuantity = '1';
+  int selectQuantity = 1;
 
   DropdownButton<String> androidSizesDropDownButton() {
     List<DropdownMenuItem<String>> dropDownItems = [];
@@ -57,16 +57,16 @@ class _ProductDetailsState extends State<ProductDetails> {
         items: dropDownItems);
   }
 
-  DropdownButton<String> androidQuantityDropDownButton() {
-    List<DropdownMenuItem<String>> dropDownItems = [];
-    for (String quantity in quantityList) {
+  DropdownButton<int> androidQuantityDropDownButton() {
+    List<DropdownMenuItem<int>> dropDownItems = [];
+    for (int quantity in quantityList) {
       var newItem = DropdownMenuItem(
-        child: Text(quantity),
+        child: Text('$quantity'),
         value: quantity,
       );
       dropDownItems.add(newItem);
     }
-    return DropdownButton<String>(
+    return DropdownButton<int>(
         onChanged: (quantity) {
           setState(() {
             selectQuantity = quantity;
@@ -91,10 +91,13 @@ class _ProductDetailsState extends State<ProductDetails> {
           context: context,
           builder: (ctx) => AlertDialog(
                 title: Text(
-                  'Are you sure?',
-                  style: TextStyle(color: Colors.red),
+                  'Success added',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                content: Text('Do you want to add the item to the cart?'),
+                content: Text('Added item to cart'),
                 actions: <Widget>[
                   FlatButton(
                     color: Colors.red,
@@ -103,14 +106,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: () {
-                      productsData.addCart(
-                        productId: loadedProduct.id,
-                        title: loadedProduct.name,
-                        color: selectColor,
-                        price: loadedProduct.currentPrice,
-                        image: loadedProduct.image,
-                        size: selectSize,
-                      );
                       Navigator.of(ctx).pop(true);
                     },
                     child: Text(
@@ -126,6 +121,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: () {
+                      productsData.removeSingleItem(productId);
                       Navigator.of(ctx).pop(false);
                     },
                     child: Text(
@@ -361,6 +357,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   IconButton(
                     onPressed: () {
+                      productsData.addCart(
+                        productId: loadedProduct.id,
+                        title: loadedProduct.name,
+                        color: selectColor,
+                        quantity: selectQuantity,
+                        price: loadedProduct.currentPrice,
+                        image: loadedProduct.image,
+                        size: selectSize,
+                      );
+                      setState(() {
+                        selectSize = 'small';
+                        selectColor = 'red';
+                        selectQuantity = 1;
+                      });
                       showConfirmAddDialog(context);
                     },
                     color: Colors.red,
