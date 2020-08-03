@@ -104,10 +104,10 @@ class _AuthFormState extends State<AuthForm>
                   children: <Widget>[
                     Flexible(
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 20.0),
+                        margin: EdgeInsets.only(left: 18),
                         padding: EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 96.0),
-                        transform: Matrix4.rotationZ(-8 * pi / 180)
+                        transform: Matrix4.rotationZ(-8 * pi / 270)
                           ..translate(-9.0),
                         // ..translate(-10.0),
                         decoration: BoxDecoration(
@@ -142,7 +142,7 @@ class _AuthFormState extends State<AuthForm>
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.all(25),
+                        margin: EdgeInsets.fromLTRB(25, 0, 25, 25),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
