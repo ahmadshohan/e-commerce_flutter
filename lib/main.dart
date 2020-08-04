@@ -1,6 +1,9 @@
+import 'package:fashinshop/taps_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './services/login_social.dart';
 import './auth/auth_page.dart';
 import 'drawer/about_us.dart';
 import 'welcome_page.dart';
@@ -19,6 +22,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // ignore: invalid_use_of_visible_for_testing_member
+  SharedPreferences.setMockInitialValues({});
   runApp(
     MyApp(),
   );
@@ -40,6 +45,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (ctx) => Orders(),
         ),
+//        ChangeNotifierProvider(
+//          create: (ctx) => LoginSocial(),
+//        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -51,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         home: SplashPage(),
         routes: {
           ProductDetails.routeName: (ctx) => ProductDetails(),
+          TabsPage.routeName: (ctx) => TabsPage(),
           HomePage.routeName: (ctx) => HomePage(),
           AuthPage.routeName: (ctx) => AuthPage(),
           WelcomePage.routeName: (ctx) => WelcomePage(),

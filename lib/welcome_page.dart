@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './home/home_page.dart';
+import 'package:fashinshop/taps_page.dart';
 import './auth/auth_page.dart';
 import 'components/constants.dart';
 
@@ -64,7 +64,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, HomePage.routeName);
+                    Navigator.pushNamed(context, TabsPage.routeName);
                   },
                   child: _isLoading
                       ? Center(

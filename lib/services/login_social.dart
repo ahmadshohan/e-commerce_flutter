@@ -9,6 +9,7 @@
 //import 'package:toast/toast.dart';
 //
 //class LoginSocial {
+//  bool _isLoading = false;
 //  final firebaseAuth = FirebaseAuth.instance;
 //  GoogleSignIn googleSignIn = GoogleSignIn(
 //    scopes: [
@@ -22,14 +23,18 @@
 //  bool isLogedin = false;
 //  AuthResult authResult;
 //  void isSignedInWithGoogle(BuildContext context) async {
+//    _isLoading = true;
 //    preferences = await SharedPreferences.getInstance();
 //    isLogedin = await googleSignIn.isSignedIn();
 //    if (isLogedin) {
 //      Navigator.pushReplacementNamed(context, HomePage.routeName);
 //    }
+//    _isLoading = false;
+//    notifyListeners();
 //  }
 //
 //  Future<void> handleGoogleSignIn(BuildContext context) async {
+//    _isLoading = true;
 //    preferences = await SharedPreferences.getInstance();
 //    GoogleSignInAccount googleUser = await googleSignIn.signIn();
 //    GoogleSignInAuthentication googleSignInAuthentication =
@@ -69,15 +74,21 @@
 //          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
 //
 //      Navigator.pushReplacementNamed(context, HomePage.routeName);
+//      _isLoading = false;
+//      notifyListeners();
 //    } else {
+//      _isLoading = false;
 //      Toast.show("login failed", context,
 //          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
 //    }
 //  }
 //
 //  Future<void> handleGoogleSignOut() async {
+//    _isLoading = true;
 //    await firebaseAuth.signOut().then((value) {
 //      googleSignIn.signOut();
+//      _isLoading = true;
+//      notifyListeners();
 //    });
 //  }
 //}

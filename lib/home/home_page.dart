@@ -9,6 +9,7 @@ import '../provider/products.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import '../drawer/favorites_page.dart';
 import '../category/category_horizontal_list.dart';
+import '../drawer/favorites_page.dart';
 import 'products_grid.dart';
 import '../drawer/shop_drawer.dart';
 import '../drawer/all_products.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
+
   Future<void> handleGoogleSignOut() async {
     await firebaseAuth.signOut().then((value) {
       googleSignIn.signOut();

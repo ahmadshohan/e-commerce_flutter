@@ -7,8 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../auth/auth_form.dart';
-
 import '../home/home_page.dart';
+import '../taps_page.dart';
 
 class AuthPage extends StatefulWidget {
   static const routeName = '/auth-page';
@@ -25,6 +25,7 @@ class _AuthPageState extends State<AuthPage> {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
+
   final fireStore = Firestore.instance;
   FirebaseUser _user;
   SharedPreferences preferences;
@@ -43,9 +44,6 @@ class _AuthPageState extends State<AuthPage> {
     if (isLogedIn) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future<void> handleGoogleSignIn() async {
@@ -165,7 +163,7 @@ class _AuthPageState extends State<AuthPage> {
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (ctx, snapshot) {
             if (snapshot.hasData) {
-              return HomePage();
+              return TabsPage();
             }
             return AuthForm(_submitAuthForm, handleGoogleSignIn, _isLoading);
           }),

@@ -18,7 +18,7 @@ class _AuthFormState extends State<AuthForm>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfrirmController = TextEditingController();
+  TextEditingController _passwordConfirmController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
   FocusNode passwordConfirmFocusNode = FocusNode();
@@ -52,14 +52,14 @@ class _AuthFormState extends State<AuthForm>
     super.dispose();
     controller.dispose();
     _passwordController.dispose();
-    _passwordConfrirmController.dispose();
+    _passwordConfirmController.dispose();
     emailFocusNode.dispose();
     userNameFocusNode.dispose();
     passwordFocusNode.dispose();
     passwordConfirmFocusNode.dispose();
   }
 
-  void _trySubmet() {
+  void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
 
@@ -247,7 +247,7 @@ class _AuthFormState extends State<AuthForm>
                                       focusNode: passwordFocusNode,
                                       onFieldSubmitted: (_) {
                                         if (_isLogin) {
-                                          _trySubmet();
+                                          _trySubmit();
                                         } else {
                                           FocusScope.of(context).requestFocus(
                                             passwordConfirmFocusNode,
@@ -326,9 +326,9 @@ class _AuthFormState extends State<AuthForm>
                                               color: Colors.grey,
                                             ),
                                           ),
-                                          onFieldSubmitted: (_) => _trySubmet(),
+                                          onFieldSubmitted: (_) => _trySubmit(),
                                           controller:
-                                              _passwordConfrirmController,
+                                              _passwordConfirmController,
                                           keyboardType: TextInputType.number,
                                           obscureText: hidePassword,
                                           validator: (value) {
@@ -372,7 +372,7 @@ class _AuthFormState extends State<AuthForm>
                                               ),
                                             ),
                                           ),
-                                          onPressed: _trySubmet),
+                                          onPressed: _trySubmit),
                                     if (!widget.isLoading)
                                       FlatButton(
                                           textColor:
@@ -476,22 +476,23 @@ class _AuthFormState extends State<AuthForm>
                                     ),
                                     Expanded(
                                       child: RaisedButton.icon(
-                                        icon: Image(
-                                          image:
-                                              AssetImage('images/google.png'),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        textColor: Colors.white,
-                                        color: Color.fromRGBO(219, 68, 55, 1),
-                                        label: Text(
-                                          'Google',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        onPressed: widget.googleSignIn,
-                                      ),
+                                          icon: Image(
+                                            image:
+                                                AssetImage('images/google.png'),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          textColor: Colors.white,
+                                          color: Color.fromRGBO(219, 68, 55, 1),
+                                          label: Text(
+                                            'Google',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          onPressed: () {}
+//                                        widget.googleSignIn,
+                                          ),
                                     ),
                                     SizedBox(
                                       width: 13,
