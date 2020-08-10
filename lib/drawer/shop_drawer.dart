@@ -1,8 +1,8 @@
-import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fashinshop/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import '../provider/login_social.dart';
 import 'about_us.dart';
 import 'orders/orders_page.dart';
 import '../shopping_cart/shopping_cart_page.dart';
@@ -11,25 +11,10 @@ import '../home/home_page.dart';
 import 'all_products.dart';
 
 class ShopDrawer extends StatelessWidget {
-  final firebaseAuth = FirebaseAuth.instance;
-
-//  final fireStore = Firestore.instance;
-//  final GoogleSignIn googleSignIn = GoogleSignIn(
-//    scopes: [
-//      'email',
-//      'https://www.googleapis.com/auth/contacts.readonly',
-//    ],
-//  );
-//
-//  Future<void> handleGoogleSignOut() async {
-//    await firebaseAuth.signOut().then((value) {
-//      googleSignIn.signOut();
-//    });
-//  }
-
   @override
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
+    final loginSocial = Provider.of<LoginSocial>(context);
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -146,6 +131,7 @@ class ShopDrawer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
+              loginSocial.handleGoogleSignOut();
               firebaseAuth.signOut();
               Navigator.of(context).pushReplacementNamed(WelcomePage.routeName);
             },

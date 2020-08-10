@@ -64,7 +64,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, TabsPage.routeName);
+                    Navigator.pushNamed(context, TapsPage.routeName);
                   },
                   child: _isLoading
                       ? Center(

@@ -4,13 +4,13 @@ import 'drawer/favorites_page.dart';
 import 'drawer/shop_drawer.dart';
 import 'home/home_page.dart';
 
-class TabsPage extends StatefulWidget {
+class TapsPage extends StatefulWidget {
   static const routeName = '/taps-page';
   @override
-  _TabsPageState createState() => _TabsPageState();
+  _TapsPageState createState() => _TapsPageState();
 }
 
-class _TabsPageState extends State<TabsPage> {
+class _TapsPageState extends State<TapsPage> {
   int _selectPageIndex = 0;
   List<Map<String, Object>> _pages;
   @override

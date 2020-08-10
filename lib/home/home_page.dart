@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import '../provider/login_social.dart';
 import 'package:provider/provider.dart';
 import '../provider/products.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import '../drawer/favorites_page.dart';
 import '../category/category_horizontal_list.dart';
-import '../drawer/favorites_page.dart';
 import 'products_grid.dart';
 import '../drawer/shop_drawer.dart';
 import '../drawer/all_products.dart';
@@ -25,23 +23,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
-
-  Future<void> handleGoogleSignOut() async {
-    await firebaseAuth.signOut().then((value) {
-      googleSignIn.signOut();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
+    final loginSocial = Provider.of<LoginSocial>(context);
     final products = productsData.productsList;
     Widget imageCarousel = Container(
       height: 300,
@@ -162,9 +147,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   FirebaseAuth.instance.signOut();
+                  loginSocial.handleGoogleSignOut();
                   Navigator.pop(context, false);
-//                  handleGoogleSignOut();
-
                 }
               });
             },

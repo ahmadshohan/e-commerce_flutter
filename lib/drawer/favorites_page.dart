@@ -7,6 +7,7 @@ import '../shopping_cart/badge.dart';
 import '../home/home_page.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import '../provider/products.dart';
+import 'package:fashinshop/taps_page.dart';
 import '../home/products_grid.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -17,6 +18,7 @@ class FavoritesPage extends StatelessWidget {
     final productsData = Provider.of<Products>(context).favoritesProducts;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.1,
         backgroundColor: Colors.red,
         title: TyperAnimatedTextKit(
@@ -62,7 +64,7 @@ class FavoritesPage extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),

@@ -16,6 +16,7 @@ class AllProducts extends StatelessWidget {
         Provider.of<Products>(context, listen: false).productsList;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.1,
         backgroundColor: Colors.red,
         title: TyperAnimatedTextKit(

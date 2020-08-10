@@ -1,15 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../components/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import '../provider/login_social.dart';
+import '../components/constants.dart';
 
 class AuthForm extends StatefulWidget {
-  final bool isLoading;
-  AuthForm(this.submitFn, this.googleSignIn, this.isLoading);
-  final void Function(String email, String userName, String password,
-      BuildContext ctx, bool isLogin) submitFn;
-  final void Function() googleSignIn;
-
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -28,6 +24,7 @@ class _AuthFormState extends State<AuthForm>
   var _emailAddress = '';
   var _password = '';
   bool hidePassword = true;
+
   AnimationController controller;
   Animation animation;
   @override
@@ -59,20 +56,19 @@ class _AuthFormState extends State<AuthForm>
     passwordConfirmFocusNode.dispose();
   }
 
-  void _trySubmit() {
-    final isValid = _formKey.currentState.validate();
-    FocusScope.of(context).unfocus();
-
-    if (isValid) {
-      _formKey.currentState.save();
-      widget.submitFn(_emailAddress.trim(), _userName.trim(), _password.trim(),
-          context, _isLogin);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final loginSocial = Provider.of<LoginSocial>(context);
+    void _trySubmit() {
+      final isValid = _formKey.currentState.validate();
+      FocusScope.of(context).unfocus();
+      if (isValid) {
+        _formKey.currentState.save();
+        loginSocial.submitAuthForm(_emailAddress.trim(), _userName.trim(),
+            _password.trim(), context, _isLogin);
+      }
+    }
 
     final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     transformConfig.translate(-10.0);
@@ -345,11 +341,11 @@ class _AuthFormState extends State<AuthForm>
                                           onSaved: (value) {
                                             _password = value;
                                           }),
-                                    if (widget.isLoading)
+                                    if (loginSocial.isLoading)
                                       Center(
                                         child: kSpinkit,
                                       ),
-                                    if (!widget.isLoading)
+                                    if (!loginSocial.isLoading)
                                       RaisedButton(
                                           shape: OutlineInputBorder(
                                             borderSide: BorderSide.none,
@@ -373,7 +369,7 @@ class _AuthFormState extends State<AuthForm>
                                             ),
                                           ),
                                           onPressed: _trySubmit),
-                                    if (!widget.isLoading)
+                                    if (!loginSocial.isLoading)
                                       FlatButton(
                                           textColor:
                                               Theme.of(context).primaryColor,
@@ -476,23 +472,25 @@ class _AuthFormState extends State<AuthForm>
                                     ),
                                     Expanded(
                                       child: RaisedButton.icon(
-                                          icon: Image(
-                                            image:
-                                                AssetImage('images/google.png'),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          textColor: Colors.white,
-                                          color: Color.fromRGBO(219, 68, 55, 1),
-                                          label: Text(
-                                            'Google',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          onPressed: () {}
-//                                        widget.googleSignIn,
-                                          ),
+                                        icon: Image(
+                                          image:
+                                              AssetImage('images/google.png'),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        textColor: Colors.white,
+                                        color: Color.fromRGBO(219, 68, 55, 1),
+                                        label: Text(
+                                          'Google',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        onPressed: () {
+                                          loginSocial
+                                              .handleGoogleSignIn(context);
+                                        },
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 13,

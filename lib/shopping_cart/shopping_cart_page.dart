@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../drawer/orders/orders_page.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+//import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import '../provider/cart_item.dart';
 import '../components/constants.dart';
