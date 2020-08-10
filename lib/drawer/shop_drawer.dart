@@ -11,9 +11,9 @@ import '../home/home_page.dart';
 import 'all_products.dart';
 
 class ShopDrawer extends StatelessWidget {
+  final firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    final firebaseAuth = FirebaseAuth.instance;
     final loginSocial = Provider.of<LoginSocial>(context);
     return Drawer(
       child: ListView(
