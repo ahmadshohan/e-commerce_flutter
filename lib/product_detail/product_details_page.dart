@@ -6,6 +6,7 @@ import '../provider/products.dart';
 import '../components/data_lists.dart';
 import '../shopping_cart/badge.dart';
 import '../shopping_cart/shopping_cart_page.dart';
+import '../taps_page.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/product-detail';
@@ -174,7 +175,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),

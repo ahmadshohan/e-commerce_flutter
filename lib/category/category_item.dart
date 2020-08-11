@@ -5,6 +5,7 @@ import '../shopping_cart/shopping_cart_page.dart';
 import '../home/home_page.dart';
 import '../home/products_grid.dart';
 import '../provider/products.dart';
+import '../taps_page.dart';
 
 class CategorySelected extends StatelessWidget {
   static const routeName = '/category_Item';
@@ -57,7 +58,7 @@ class CategorySelected extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),

@@ -27,41 +27,44 @@ class Orders with ChangeNotifier {
   List<OrderItem> get orders {
     return [..._orders];
   }
-//
-//  final String authToken;
+
 //  String userId;
-//  Orders(this.authToken, this.userId, this._orders);
+//  Orders(this.userId, this._orders);
 
 //  Future<void> fetchAndSetOrders() async {
-//    final url =
-//        'https://flutter-update-ad533.firebaseio.com/orders/$userId.json?auth=$authToken';
-//    final response = await http.get(url);
+//    FirebaseUser _user = await firebaseAuth.currentUser();
+//    final response = await fireStore
+//        .collection('orders')
+//        .where('id', isEqualTo: _user.uid)
+//        .getDocuments();
 //    final List<OrderItem> loadedOrder = [];
-//    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-//    if (extractedData == null) {
+//    List<DocumentSnapshot> allDocuments = response.documents;
+//    if (allDocuments.length == 0) {
 //      return;
+//    } else {
+//      allDocuments.forEach((document) {
+//        loadedOrder.add(OrderItem(
+//            id: userId,
+//            amount: document['amount'],
+//            dateTime: DateTime.parse(document['dateTime']),
+//            products: (document['products'] as List<dynamic>).map((item) =>
+//                CartItem(
+//                    id: item['id'],
+//                    title: item['title'],
+//                    price: item['price'],
+//                    image: null,
+//                    quantity: item['quantity']))));
+//      });
+//
+//      _orders = loadedOrder.reversed.toList();
+//      notifyListeners();
 //    }
-//    extractedData.forEach((orderId, orderData) => loadedOrder.add(OrderItem(
-//        id: orderId,
-//        amount: orderData['amount'],
-//        dateTime: DateTime.parse(orderData['dateTime']),
-//        products: (orderData['products'] as List<dynamic>)
-//            .map((item) => CartItem(
-//                id: item['id'],
-//                title: item['title'],
-//                price: item['price'],
-//                quantity: item['quantity']))
-//            .toList())));
-//    _orders = loadedOrder.reversed.toList();
-//    notifyListeners();
 //  }
 
   Future<void> addOrder(List<CartItem> productsCart, int total) async {
-//    final url =
-//        'https://flutter-update-ad533.firebaseio.com/orders/$userId.json?auth=$authToken';
     FirebaseUser _user = await firebaseAuth.currentUser();
     final timestamp = DateTime.now();
-    await fireStore.collection('orders').document().setData({
+    await fireStore.collection('orders').document('${_user.uid}').setData({
       'total': total,
       'dateTime': timestamp.toIso8601String(),
       'products': productsCart
@@ -76,22 +79,10 @@ class Orders with ChangeNotifier {
     _orders.insert(
         0,
         OrderItem(
-            id: timestamp.toString(),
+            id: _user.uid,
             amount: total,
             dateTime: timestamp,
             products: productsCart));
     notifyListeners();
   }
-
-//  void addOrder(List<CartItem> productsCart, int total) async {
-//    _orders.insert(
-//      0,
-//      OrderItem(
-//          id: DateTime.now().toString(),
-//          amount: total,
-//          dateTime: DateTime.now(),
-//          products: productsCart),
-//    );
-//    notifyListeners();
-//  }
 }

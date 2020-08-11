@@ -106,12 +106,13 @@ class _SingleProductCartState extends State<SingleProductCart> {
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF3C3C3C)),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text('Size:'),
-                            Padding(
-                              padding: const EdgeInsets.all(4),
+                            Expanded(
                               child: Text(
                                 widget.size,
                                 style: TextStyle(
@@ -119,14 +120,17 @@ class _SingleProductCartState extends State<SingleProductCart> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-                              child: Text(
-                                'Color:',
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                ),
+                                child: Text(
+                                  'Color:',
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(4),
+                            Expanded(
                               child: Text(
                                 widget.color,
                                 style: TextStyle(

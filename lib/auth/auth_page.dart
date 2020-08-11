@@ -19,6 +19,7 @@ class _AuthPageState extends State<AuthPage> {
     if (_isInit) {
       final loginSocial = Provider.of<LoginSocial>(context);
       loginSocial.isSignedInWithGoogle(context);
+      loginSocial.isSignedInWithFaceBook(context);
       _isInit = false;
     }
   }

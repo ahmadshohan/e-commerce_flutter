@@ -9,6 +9,7 @@ import '../provider/products.dart';
 import '../home/home_page.dart';
 import '../drawer/all_products.dart';
 import '../provider/orders.dart';
+import '../taps_page.dart';
 import 'product_cart.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -72,7 +73,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),
@@ -104,7 +105,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ),
             ),
-      floatingActionButton: cartItems.isEmpty
+      floatingActionButton: cartItems.isEmpty || cart.totalAmount == 0
           ? Container(
               alignment: Alignment.bottomRight,
               margin: EdgeInsets.only(

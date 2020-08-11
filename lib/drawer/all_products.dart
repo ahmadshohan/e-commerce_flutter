@@ -6,6 +6,7 @@ import '../home/home_page.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import '../provider/products.dart';
 import '../home/products_grid.dart';
+import '../taps_page.dart';
 
 class AllProducts extends StatelessWidget {
   static const routeName = '/All-Products-page';
@@ -62,7 +63,7 @@ class AllProducts extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),

@@ -47,11 +47,15 @@ class _MyAppState extends State<MyApp> {
           create: (ctx) => Products(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Orders(),
-        ),
-        ChangeNotifierProvider(
           create: (ctx) => LoginSocial(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
+        ),
+//        ChangeNotifierProxyProvider<LoginSocial, Orders>(
+//          update: (ctx, loginSocial, privusOrder) => Orders(loginSocial.userId,
+//              privusOrder == null ? [] : privusOrder.orders),
+//        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

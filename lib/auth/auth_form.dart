@@ -465,7 +465,10 @@ class _AuthFormState extends State<AuthForm>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 12),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            loginSocial
+                                                .handleFacebookSignIn(context);
+                                          }),
                                     ),
                                     SizedBox(
                                       width: 7,
@@ -495,25 +498,25 @@ class _AuthFormState extends State<AuthForm>
                                     SizedBox(
                                       width: 13,
                                     ),
-                                    Expanded(
-                                      child: RaisedButton.icon(
-                                          icon: Image(
-                                            image:
-                                                AssetImage('images/apple.png'),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          textColor: Colors.black87,
-                                          color:
-                                              Color.fromRGBO(255, 255, 255, 1),
-                                          label: Text(
-                                            'Apple',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          onPressed: () {}),
-                                    ),
+//                                    Expanded(
+//                                      child: RaisedButton.icon(
+//                                          icon: Image(
+//                                            image:
+//                                                AssetImage('images/apple.png'),
+//                                          ),
+//                                          shape: RoundedRectangleBorder(
+//                                              borderRadius:
+//                                                  BorderRadius.circular(10)),
+//                                          textColor: Colors.black87,
+//                                          color:
+//                                              Color.fromRGBO(255, 255, 255, 1),
+//                                          label: Text(
+//                                            'Apple',
+//                                            textAlign: TextAlign.center,
+//                                            style: TextStyle(fontSize: 15),
+//                                          ),
+//                                          onPressed: () {}),
+//                                    ),
                                   ],
                                 ),
                               )

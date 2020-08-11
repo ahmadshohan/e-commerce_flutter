@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import '../../taps_page.dart';
 import '../shop_drawer.dart';
-import 'package:fashinshop/home/home_page.dart';
 import 'package:fashinshop/provider/orders.dart';
 import '../all_products.dart';
 import 'single_order.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
   static const routeName = '/orders-page';
-  // // @override
-  // // void initState() {
-  // //   // Future.delayed(Duration.zero).then((_) async {
-  // //   _isLoading = true;
-  // //   Provider.of<Orders>(context, listen: false).fetchAndSetOrders().then((_) {
-  // //     setState(() {
-  // //       _isLoading = false;
-  // //     });
-  // //   });
 
-  //   super.initState();
-  // }
+  @override
+  _OrdersPageState createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  bool _isLoading = false;
+//  @override
+//  void initState() {
+//    super.initState();
+//    Future.delayed(Duration.zero).then((_) async {
+//      _isLoading = true;
+//      Provider.of<Orders>(context, listen: false).fetchAndSetOrders().then((_) {
+//        setState(() {
+//          _isLoading = false;
+//        });
+//      });
+//    });
+//  }
+
   @override
   Widget build(BuildContext context) {
     final ordreData = Provider.of<Orders>(context);
@@ -37,12 +45,12 @@ class OrdersPage extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomePage.routeName),
+                Navigator.pushReplacementNamed(context, TapsPage.routeName),
           ),
         ],
       ),
       drawer: ShopDrawer(),
-      body: ordreData.orders.isEmpty
+      body: ordreData.orders.isEmpty || _isLoading
           ? Center(
               child: Text(
                 'Not found items in your order page please add an order !',

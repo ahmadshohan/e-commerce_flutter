@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fashinshop/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../provider/login_social.dart';
+import '../taps_page.dart';
 import 'about_us.dart';
 import 'orders/orders_page.dart';
 import '../shopping_cart/shopping_cart_page.dart';
@@ -38,7 +39,7 @@ class ShopDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, HomePage.routeName),
+            onTap: () => Navigator.pushNamed(context, TapsPage.routeName),
             child: ListTile(
               title: Text('Home Page'),
               leading: Icon(
@@ -132,7 +133,8 @@ class ShopDrawer extends StatelessWidget {
           InkWell(
             onTap: () {
               loginSocial.handleGoogleSignOut();
-              firebaseAuth.signOut();
+              loginSocial.handleFacebookSignOut();
+              loginSocial.signOutEmailPassword();
               Navigator.of(context).pushReplacementNamed(WelcomePage.routeName);
             },
             child: ListTile(

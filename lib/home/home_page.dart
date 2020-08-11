@@ -1,3 +1,4 @@
+import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -146,9 +147,14 @@ class _HomePageState extends State<HomePage> {
                     AllProducts.routeName,
                   );
                 } else {
-                  FirebaseAuth.instance.signOut();
+                  loginSocial.signOutEmailPassword();
                   loginSocial.handleGoogleSignOut();
-                  Navigator.pop(context, false);
+                  loginSocial.handleFacebookSignOut();
+//                  Navigator.pop(context, false);
+                  Navigator.pushReplacementNamed(
+                    context,
+                    WelcomePage.routeName,
+                  );
                 }
               });
             },
