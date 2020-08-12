@@ -11,6 +11,6 @@ class CartItem {
       this.color,
       this.size,
       @required this.price,
-      @required this.image,
+      this.image,
       @required this.quantity});
 }
