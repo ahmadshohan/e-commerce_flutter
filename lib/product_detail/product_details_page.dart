@@ -1,6 +1,7 @@
+import 'package:fashinshop/components/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../home/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../home/products_grid.dart';
 import '../provider/products.dart';
 import '../components/data_lists.dart';
@@ -136,6 +137,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ],
               ));
+    }
+
+    void handleAddCartItem() async {
+      final user = await FirebaseAuth.instance.currentUser();
+      if (user != null) {
+        productsData.addCart(
+          productId: loadedProduct.id,
+          title: loadedProduct.name,
+          color: selectColor,
+          quantity: selectQuantity,
+          price: loadedProduct.currentPrice,
+          image: loadedProduct.image,
+          size: selectSize,
+        );
+        setState(() {
+          selectSize = 'small';
+          selectColor = 'red';
+          selectQuantity = 1;
+        });
+        showConfirmAddDialog(context);
+      } else {
+        showSignInDialog(context);
+      }
     }
 
     return Scaffold(
@@ -357,23 +381,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      productsData.addCart(
-                        productId: loadedProduct.id,
-                        title: loadedProduct.name,
-                        color: selectColor,
-                        quantity: selectQuantity,
-                        price: loadedProduct.currentPrice,
-                        image: loadedProduct.image,
-                        size: selectSize,
-                      );
-                      setState(() {
-                        selectSize = 'small';
-                        selectColor = 'red';
-                        selectQuantity = 1;
-                      });
-                      showConfirmAddDialog(context);
-                    },
+                    onPressed: handleAddCartItem,
                     color: Colors.red,
                     icon: Icon(
                       Icons.add_shopping_cart,

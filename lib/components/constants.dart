@@ -1,3 +1,5 @@
+import 'package:fashinshop/auth/auth_page.dart';
+import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -183,5 +185,57 @@ Future<bool> showSuccessDialog(BuildContext context) {
             content: Text(
               'Your order has been successfully added',
             ),
+          ));
+}
+
+Future<bool> showSignInDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+            title: Text(
+              'Attention',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            content: Text(
+              'You must sign in to be able to order!',
+            ),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.red,
+                shape: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(AuthPage.routeName);
+                },
+                child: Text(
+                  'Signin',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+              FlatButton(
+                color: Colors.black12,
+                shape: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.of(ctx).pushReplacementNamed(WelcomePage.routeName);
+                },
+                child: Text(
+                  'Exit',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
           ));
 }

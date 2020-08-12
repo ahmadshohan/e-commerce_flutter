@@ -12,7 +12,7 @@ import 'package:toast/toast.dart';
 
 class LoginSocial with ChangeNotifier {
   bool isLoading = false;
-  String _userId;
+
   final firebaseAuth = FirebaseAuth.instance;
   final fireStore = Firestore.instance;
   GoogleSignIn googleSignIn = GoogleSignIn(
@@ -26,9 +26,6 @@ class LoginSocial with ChangeNotifier {
   FirebaseUser _firebaseUser;
   bool isLogedin = false;
   AuthResult authResult;
-  String get userId {
-    return _userId;
-  }
 
   void isSignedInWithGoogle(BuildContext context) async {
     isLoading = true;
@@ -48,8 +45,6 @@ class LoginSocial with ChangeNotifier {
       notifyListeners();
       preferences = await SharedPreferences.getInstance();
       GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      isLoading = false;
-      notifyListeners();
       GoogleSignInAuthentication googleSignInAuthentication =
           await googleUser.authentication;
       AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -57,9 +52,9 @@ class LoginSocial with ChangeNotifier {
         accessToken: googleSignInAuthentication.accessToken,
       );
       authResult = await firebaseAuth.signInWithCredential(credential);
-
       _firebaseUser = authResult.user;
-
+      isLoading = false;
+      notifyListeners();
       if (authResult != null) {
         final QuerySnapshot querySnapshot = await fireStore
             .collection('users')
@@ -82,7 +77,6 @@ class LoginSocial with ChangeNotifier {
           await preferences.setString('email', _firebaseUser.email);
           await preferences.setString('profilePicture', _firebaseUser.photoUrl);
         } else {
-          _userId = documents[0]['id'];
           await preferences.setString('id', documents[0]['id']);
           await preferences.setString('username', documents[0]['username']);
           await preferences.setString('email', documents[0]['email']);
@@ -112,7 +106,6 @@ class LoginSocial with ChangeNotifier {
       notifyListeners();
       await firebaseAuth.signOut().then((value) {
         googleSignIn.signOut();
-        _userId = null;
         preferences.clear();
         isLoading = false;
         notifyListeners();
@@ -178,7 +171,7 @@ class LoginSocial with ChangeNotifier {
             await preferences.setString(
                 'profilePicture', documents[0]['profilePicture']);
           }
-          _userId = documents[0]['id'];
+
           isLoading = false;
           notifyListeners();
           Toast.show("success login", context,
@@ -213,7 +206,6 @@ class LoginSocial with ChangeNotifier {
       notifyListeners();
       await firebaseAuth.signOut().then((value) {
         facebookLogin.logOut();
-        _userId = null;
         preferences.clear();
         isLoading = false;
         notifyListeners();
@@ -237,7 +229,7 @@ class LoginSocial with ChangeNotifier {
       if (isLogin) {
         authResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        _userId = authResult.user.uid;
+
         notifyListeners();
         await preferences.setString('id', authResult.user.uid);
       } else if (isLogin == false || firebaseUser == null) {
@@ -251,7 +243,6 @@ class LoginSocial with ChangeNotifier {
           'email': authResult.user.email,
           'userid': authResult.user.uid,
         });
-        _userId = authResult.user.uid;
         await preferences.setString('id', authResult.user.uid);
         notifyListeners();
       }
@@ -277,7 +268,6 @@ class LoginSocial with ChangeNotifier {
 
   Future<void> signOutEmailPassword() async {
     await firebaseAuth.signOut();
-    _userId = null;
     preferences.clear();
     notifyListeners();
   }

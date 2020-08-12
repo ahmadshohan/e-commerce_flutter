@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:fashinshop/components/constants.dart';
+import 'package:fashinshop/provider/orders.dart';
 import '../../taps_page.dart';
 import '../shop_drawer.dart';
-import 'package:fashinshop/provider/orders.dart';
 import '../all_products.dart';
 import 'single_order.dart';
 
@@ -16,22 +15,6 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-//  bool _isLoading = false;
-//  @override
-//  void initState() {
-//    super.initState();
-//    Future.delayed(Duration.zero).then((_) async {
-//      setState(() {
-//        _isLoading = true;
-//      });
-//      Provider.of<Orders>(context, listen: false).fetchAndSetOrders().then((_) {
-//        setState(() {
-//          _isLoading = false;
-//        });
-//      });
-//    });
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -48,6 +48,9 @@ class Orders with ChangeNotifier {
                   (item) => CartItem(
                       id: item['id'],
                       title: item['title'],
+                      size: item['size'],
+                      color: item['color'],
+                      image: item['image'],
                       price: item['price'],
                       quantity: item['quantity']),
                 )
@@ -63,27 +66,32 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> productsCart, int total) async {
     FirebaseUser _user = await firebaseAuth.currentUser();
-    final timestamp = DateTime.now();
-    await fireStore.collection('orders').document('${_user.uid}').setData({
-      'id': _user.uid,
-      'total': total,
-      'dateTime': timestamp.toIso8601String(),
-      'products': productsCart
-          .map((cp) => {
-                'id': cp.id,
-                'title': cp.title,
-                'price': cp.price,
-                'quantity': cp.quantity
-              })
-          .toList()
-    });
-    _orders.insert(
-        0,
-        OrderItem(
-            id: _user.uid,
-            amount: total,
-            dateTime: timestamp,
-            products: productsCart));
-    notifyListeners();
+    if (_user != null) {
+      final timestamp = DateTime.now();
+      await fireStore.collection('orders').document('${_user.uid}').setData({
+        'id': _user.uid,
+        'total': total,
+        'dateTime': timestamp.toIso8601String(),
+        'products': productsCart
+            .map((cp) => {
+                  'id': cp.id,
+                  'title': cp.title,
+                  'size': cp.size,
+                  'color': cp.color,
+                  'image': cp.image,
+                  'price': cp.price,
+                  'quantity': cp.quantity
+                })
+            .toList()
+      });
+      _orders.insert(
+          0,
+          OrderItem(
+              id: _user.uid,
+              amount: total,
+              dateTime: timestamp,
+              products: productsCart));
+      notifyListeners();
+    }
   }
 }

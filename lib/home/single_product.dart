@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../provider/products.dart';
+import '../components/constants.dart';
 import '../product_detail/product_details_page.dart';
 
 class SingleProduct extends StatelessWidget {
@@ -8,6 +10,41 @@ class SingleProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final singleProduct = Provider.of<Product>(context);
     final product = Provider.of<Products>(context);
+    void handleAddCartItem() async {
+      final user = await FirebaseAuth.instance.currentUser();
+      if (user != null) {
+        product.addCart(
+          productId: singleProduct.id,
+          title: singleProduct.name,
+          quantity: 1,
+          image: singleProduct.image,
+          price: singleProduct.currentPrice,
+        );
+        Scaffold.of(context).hideCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Added item to cart',
+              style: TextStyle(fontSize: 17),
+            ),
+            duration: Duration(
+              seconds: 3,
+            ),
+            elevation: 3,
+            action: SnackBarAction(
+              label: 'UNDO',
+              onPressed: () {
+                product.removeSingleItem(
+                  singleProduct.id,
+                );
+              },
+            ),
+          ),
+        );
+      } else {
+        showSignInDialog(context);
+      }
+    }
 
     return Card(
       elevation: 2,
@@ -62,41 +99,11 @@ class SingleProduct extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {
-                      product.addCart(
-                        productId: singleProduct.id,
-                        title: singleProduct.name,
-                        quantity: 1,
-                        image: singleProduct.image,
-                        price: singleProduct.currentPrice,
-                      );
-                      Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Added item to cart',
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          duration: Duration(
-                            seconds: 3,
-                          ),
-                          elevation: 3,
-                          action: SnackBarAction(
-                            label: 'UNDO',
-                            onPressed: () {
-                              product.removeSingleItem(
-                                singleProduct.id,
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        color: Colors.red,
+                      ),
+                      onPressed: handleAddCartItem),
                 ]),
               ),
             ),

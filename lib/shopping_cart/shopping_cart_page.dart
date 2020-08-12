@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../drawer/orders/orders_page.dart';
 //import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import '../provider/cart_item.dart';
 import '../components/constants.dart';
 import '../provider/products.dart';
-import '../home/home_page.dart';
 import '../drawer/all_products.dart';
 import '../provider/orders.dart';
 import '../taps_page.dart';
@@ -36,19 +36,24 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   void handleOrderNow() async {
-    setState(() {
-      _isLoading = true;
-    });
-    Provider.of<Orders>(context, listen: false).addOrder(
-      cart.cartItems.values.toList(),
-      cart.totalAmount,
-    );
-    cart.clear();
-    setState(() {
-      _isLoading = false;
-    });
-    await showSuccessDialog(context);
-    Navigator.pushReplacementNamed(context, OrdersPage.routeName);
+    final user = await FirebaseAuth.instance.currentUser();
+    if (user != null) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Orders>(context, listen: false).addOrder(
+        cart.cartItems.values.toList(),
+        cart.totalAmount,
+      );
+      cart.clear();
+      setState(() {
+        _isLoading = false;
+      });
+      await showSuccessDialog(context);
+      Navigator.pushReplacementNamed(context, OrdersPage.routeName);
+    } else {
+      showSignInDialog(context);
+    }
   }
 
   @override
