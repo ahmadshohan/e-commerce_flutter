@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../drawer/orders/orders_page.dart';
-//import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import '../provider/cart_item.dart';
 import '../components/constants.dart';
@@ -182,10 +182,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       ),
                       onPressed: handleOrderNow,
 //                      launchWhatsApp(phone: '963951541016', message: 'hello');
-//                      FlutterOpenWhatsapp.sendSingleMessage(
-//                      "95379823123",
-//                      "Hello",
-//                    );
+
                       textColor: Colors.white,
                       color: Colors.black,
                       child: _isLoading

@@ -1,7 +1,7 @@
-import 'package:fashinshop/auth/auth_page.dart';
-import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fashinshop/auth/auth_page.dart';
+import 'package:fashinshop/welcome_page.dart';
 
 final kTextStyleTextFormField = const TextStyle(
   color: Colors.black,

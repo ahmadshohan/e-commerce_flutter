@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatelessWidget {
   static const routeName = '/about-us';
+  Future launchURL() async {
+    const url = 'https://instagram.com/styl_ecorner?igshid=upqj2nbq7eeq';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var hight = MediaQuery.of(context).size.height;
@@ -25,6 +36,7 @@ class AboutUs extends StatelessWidget {
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Stack(children: <Widget>[
               Container(
@@ -50,36 +62,105 @@ class AboutUs extends StatelessWidget {
                 ),
               )
             ]),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Online boutique Style ecorner",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-              textDirection: TextDirection.rtl,
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Divider(),
             Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                'We are an online shop,based in lebanon.we care about womens style and beauty.Therefore we bring gagging fashion clothes right away from Turkey,for the best prices.Our collections suit every style!',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  fontFamily: 'Lato',
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 13),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Online boutique Style ecorner",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                    textDirection: TextDirection.rtl,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Divider(),
+                  Text(
+                    'We are an online shop,based in lebanon.we care about womens style and beauty.Therefore we bring gagging fashion clothes right away from Turkey,for the best prices.Our collections suit every style!',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                  Divider(),
+                  Text(
+                    'Contact us :',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            FlutterOpenWhatsapp.sendSingleMessage(
+                              "963951541016",
+                              "Hello",
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                  height: 30,
+                                  child: Image.asset('images/whatsup.png')),
+                              Text(
+                                'Whatsup',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: launchURL,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 30,
+                                child: Image.asset(
+                                  'images/instagram.jpg',
+                                ),
+                              ),
+                              Text(
+                                'Instagram',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                ],
               ),
             ),
-            Divider(),
           ],
         ),
       ),
