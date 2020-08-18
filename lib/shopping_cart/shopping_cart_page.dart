@@ -36,7 +36,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   void handleOrderNow() async {
-    final user = await FirebaseAuth.instance.currentUser();
+    final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       setState(() {
         _isLoading = true;

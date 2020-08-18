@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fashinshop/auth/auth_page.dart';
 import 'package:fashinshop/welcome_page.dart';
@@ -238,4 +239,57 @@ Future<bool> showSignInDialog(BuildContext context) {
               ),
             ],
           ));
+}
+
+Future<bool> showExitConfirmationDialog(BuildContext context) async {
+  return (await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Are you sure?',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          content: Text('Do you want to exit an App'),
+          actions: <Widget>[
+            FlatButton(
+              color: Colors.red,
+              shape: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              onPressed: () {
+                SystemNavigator.pop();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text(
+                'Yes',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            FlatButton(
+              color: Colors.black12,
+              shape: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                'No',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      )) ??
+      false;
 }

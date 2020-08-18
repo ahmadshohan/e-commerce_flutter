@@ -140,7 +140,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
 
     void handleAddCartItem() async {
-      final user = await FirebaseAuth.instance.currentUser();
+      final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         productsData.addCart(
           productId: loadedProduct.id,

@@ -14,7 +14,7 @@ class LoginSocial with ChangeNotifier {
   bool isLoading = false;
 
   final firebaseAuth = FirebaseAuth.instance;
-  final fireStore = Firestore.instance;
+  final fireStore = FirebaseFirestore.instance;
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -23,9 +23,9 @@ class LoginSocial with ChangeNotifier {
   );
   final facebookLogin = FacebookLogin();
   SharedPreferences preferences;
-  FirebaseUser _firebaseUser;
+  User _firebaseUser;
   bool isLogedin = false;
-  AuthResult authResult;
+  UserCredential authResult;
 
   void isSignedInWithGoogle(BuildContext context) async {
     isLoading = true;
@@ -59,29 +59,27 @@ class LoginSocial with ChangeNotifier {
         final QuerySnapshot querySnapshot = await fireStore
             .collection('users')
             .where('id', isEqualTo: _firebaseUser.uid)
-            .getDocuments();
-        final List<DocumentSnapshot> documents = querySnapshot.documents;
+            .get();
+        final List<DocumentSnapshot> documents = querySnapshot.docs;
         if (documents.length == 0) {
-          await fireStore
-              .collection('users')
-              .document("${_firebaseUser.uid}")
-              .setData({
+          fireStore.collection('users').doc("${_firebaseUser.uid}").set({
             'id': _firebaseUser.uid,
             'username': _firebaseUser.displayName,
             'email': _firebaseUser.email,
-            'profilePicture': _firebaseUser.photoUrl,
+            'profilePicture': _firebaseUser.photoURL,
           });
 
           await preferences.setString('id', _firebaseUser.uid);
           await preferences.setString('username', _firebaseUser.displayName);
           await preferences.setString('email', _firebaseUser.email);
-          await preferences.setString('profilePicture', _firebaseUser.photoUrl);
+          await preferences.setString('profilePicture', _firebaseUser.photoURL);
         } else {
-          await preferences.setString('id', documents[0]['id']);
-          await preferences.setString('username', documents[0]['username']);
-          await preferences.setString('email', documents[0]['email']);
+          var targetDocument = documents[0].data();
+          await preferences.setString('id', targetDocument['id']);
+          await preferences.setString('username', targetDocument['username']);
+          await preferences.setString('email', targetDocument['email']);
           await preferences.setString(
-              'profilePicture', documents[0]['profilePicture']);
+              'profilePicture', targetDocument['profilePicture']);
         }
         Toast.show("success login", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
@@ -136,7 +134,7 @@ class LoginSocial with ChangeNotifier {
       debugPrint(result.status.toString());
       if (result.status == FacebookLoginStatus.loggedIn) {
         AuthCredential credential = FacebookAuthProvider.getCredential(
-          accessToken: result.accessToken.token,
+          result.accessToken.token,
         );
         authResult = await firebaseAuth.signInWithCredential(credential);
         _firebaseUser = authResult.user;
@@ -146,30 +144,31 @@ class LoginSocial with ChangeNotifier {
           final QuerySnapshot querySnapshot = await fireStore
               .collection('users')
               .where('id', isEqualTo: _firebaseUser.uid)
-              .getDocuments();
-          final List<DocumentSnapshot> documents = querySnapshot.documents;
+              .get();
+          final List<DocumentSnapshot> documents = querySnapshot.docs;
           if (documents.length == 0) {
             await fireStore
                 .collection('users')
-                .document("${_firebaseUser.uid}")
-                .setData({
+                .doc("${_firebaseUser.uid}")
+                .set({
               'id': _firebaseUser.uid,
               'username': _firebaseUser.displayName,
               'email': _firebaseUser.email,
-              'profilePicture': _firebaseUser.photoUrl,
+              'profilePicture': _firebaseUser.photoURL,
             });
 
             await preferences.setString('id', _firebaseUser.uid);
             await preferences.setString('username', _firebaseUser.displayName);
             await preferences.setString('email', _firebaseUser.email);
             await preferences.setString(
-                'profilePicture', _firebaseUser.photoUrl);
+                'profilePicture', _firebaseUser.photoURL);
           } else {
-            await preferences.setString('id', documents[0]['id']);
-            await preferences.setString('username', documents[0]['username']);
-            await preferences.setString('email', documents[0]['email']);
+            var targetDocument = documents[0].data();
+            await preferences.setString('id', targetDocument['id']);
+            await preferences.setString('username', targetDocument['username']);
+            await preferences.setString('email', targetDocument['email']);
             await preferences.setString(
-                'profilePicture', documents[0]['profilePicture']);
+                'profilePicture', targetDocument['profilePicture']);
           }
 
           isLoading = false;
@@ -225,7 +224,7 @@ class LoginSocial with ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+      User firebaseUser = firebaseAuth.currentUser;
       if (isLogin) {
         authResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
@@ -235,10 +234,7 @@ class LoginSocial with ChangeNotifier {
       } else if (isLogin == false || firebaseUser == null) {
         authResult = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
-        fireStore
-            .collection('users')
-            .document('${authResult.user.uid}')
-            .setData({
+        fireStore.collection('users').doc('${authResult.user.uid}').set({
           'username': username,
           'email': authResult.user.email,
           'userid': authResult.user.uid,

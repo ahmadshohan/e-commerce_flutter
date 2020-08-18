@@ -1,3 +1,4 @@
+import 'package:fashinshop/drawer/rate_us.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fashinshop/welcome_page.dart';
@@ -8,11 +9,11 @@ import 'about_us.dart';
 import 'orders/orders_page.dart';
 import '../shopping_cart/shopping_cart_page.dart';
 import 'favorites_page.dart';
-import '../home/home_page.dart';
 import 'all_products.dart';
 
 class ShopDrawer extends StatelessWidget {
   final firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final loginSocial = Provider.of<LoginSocial>(context);
@@ -127,6 +128,17 @@ class ShopDrawer extends StatelessWidget {
               title: Text('About us'),
               leading: Icon(
                 Icons.help,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, RateUs.routeName);
+            },
+            child: ListTile(
+              title: Text('ٌRate us'),
+              leading: Icon(
+                Icons.rate_review,
               ),
             ),
           ),

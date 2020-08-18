@@ -11,7 +11,7 @@ class SingleProduct extends StatelessWidget {
     final singleProduct = Provider.of<Product>(context);
     final product = Provider.of<Products>(context);
     void handleAddCartItem() async {
-      final user = await FirebaseAuth.instance.currentUser();
+      final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         product.addCart(
           productId: singleProduct.id,

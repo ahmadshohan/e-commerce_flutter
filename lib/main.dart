@@ -1,10 +1,13 @@
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'provider/login_social.dart';
+import 'package:fashinshop/drawer/rate_us.dart';
 import 'package:fashinshop/taps_page.dart';
 import './auth/auth_page.dart';
 import 'drawer/about_us.dart';
@@ -21,12 +24,19 @@ import './provider/orders.dart';
 import 'splash_page.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics();
-void main() {
+bool USE_FIRESTORE_EMULATOR = false;
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ignore: invalid_use_of_visible_for_testing_member
   SharedPreferences.setMockInitialValues({});
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  if (USE_FIRESTORE_EMULATOR) {
+    FirebaseFirestore.instance.settings = Settings(
+        host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
+  }
 
   runApp(
     MyApp(),
@@ -72,6 +82,7 @@ class _MyAppState extends State<MyApp> {
           ProductDetails.routeName: (ctx) => ProductDetails(),
           TapsPage.routeName: (ctx) => TapsPage(),
           HomePage.routeName: (ctx) => HomePage(),
+          RateUs.routeName: (ctx) => RateUs(),
           AuthPage.routeName: (ctx) => AuthPage(),
           WelcomePage.routeName: (ctx) => WelcomePage(),
           OrdersPage.routeName: (ctx) => OrdersPage(),

@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'cart_item.dart';
 
-final fireStore = Firestore.instance;
+final fireStore = FirebaseFirestore.instance;
 final firebaseAuth = FirebaseAuth.instance;
 
 class OrderItem {
@@ -26,18 +29,18 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrders() async {
-    FirebaseUser _user = await firebaseAuth.currentUser();
+    User _user = firebaseAuth.currentUser;
     final List<OrderItem> loadedOrder = [];
     QuerySnapshot response = await fireStore
         .collection('orders')
         .where('id', isEqualTo: _user.uid)
-        .getDocuments();
-    List<DocumentSnapshot> allDocuments = response.documents;
+        .get();
+    List<DocumentSnapshot> allDocuments = response.docs;
     if (allDocuments == null) {
       return;
     } else {
       allDocuments.forEach((document) {
-        var documentData = document.data;
+        var documentData = document.data();
         loadedOrder.add(
           OrderItem(
             id: _user.uid,
@@ -65,10 +68,10 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> productsCart, int total) async {
-    FirebaseUser _user = await firebaseAuth.currentUser();
+    User _user = firebaseAuth.currentUser;
     if (_user != null) {
       final timestamp = DateTime.now();
-      await fireStore.collection('orders').document('${_user.uid}').setData({
+      await fireStore.collection('orders').doc().set({
         'id': _user.uid,
         'total': total,
         'dateTime': timestamp.toIso8601String(),
