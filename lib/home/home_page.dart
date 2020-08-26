@@ -1,8 +1,7 @@
-import 'package:fashinshop/welcome_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fashinshop/welcome_page.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../provider/login_social.dart';
 import 'package:provider/provider.dart';
 import '../provider/products.dart';
@@ -177,28 +176,39 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: ShopDrawer(),
-      body: ListView(
-        children: <Widget>[
-          imageCarousel,
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 8, bottom: 5),
-            child: Text(
-              'Category',
-              style: TextStyle(color: Colors.black),
+      body: SafeArea(
+        top: true,
+        bottom: true,
+        right: false,
+        left: false,
+        child: Container(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                imageCarousel,
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 8, bottom: 5),
+                  child: Text(
+                    'Category',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                CategoryHorizentalList(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 8, bottom: 5),
+                  child: Text('Recent Products'),
+                ),
+                Container(
+                  height: 500,
+                  child: ProductsGrid(
+                    products,
+                  ),
+                ),
+              ],
             ),
           ),
-          CategoryHorizentalList(),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 8, bottom: 5),
-            child: Text('Recent Products'),
-          ),
-          Container(
-            height: 500,
-            child: ProductsGrid(
-              products,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

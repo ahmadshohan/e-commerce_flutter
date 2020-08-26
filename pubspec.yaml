@@ -37,70 +37,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/placeholder.png
-    - images/instagram.jpg
-    - images/whatsup.png
-    - images/logo.jpeg
-    - images/facebook.png
-    - images/apple.png
-    - images/google.png
-    - images/cats/accessories.png
-    - images/cats/dress.png
-    - images/cats/shoe.png
-    - images/products/dress/dr1.jpeg
-    - images/products/dress/dr2.jpeg
-    - images/products/dress/dr3.jpeg
-    - images/products/dress/dr4.jpeg
-    - images/products/dress/dr5.jpeg
-    - images/products/dress/dr7.jpeg
-    - images/products/dress/dr8.jpeg
-    - images/products/dress/dr9.jpeg
-    - images/products/dress/dr10.jpeg
-    - images/products/dress/dr11.jpeg
-    - images/products/dress/dr12.jpeg
-    - images/products/dress/dr13.jpeg
-    - images/products/dress/dr14.jpeg
-    - images/products/dress/dr15.jpeg
-    - images/products/dress/dr16.jpeg
-    - images/products/pants/pa1.jpeg
-    - images/products/pants/pa2.jpeg
-    - images/products/pants/pa3.jpeg
-    - images/products/pants/pa4.jpg
-    - images/products/pants/pa5.jpeg
-    - images/products/pants/pa6.jpeg
-    - images/products/pants/pa7.jpeg
-    - images/products/pants/pa8.jpeg
-    - images/products/pants/pa9.jpeg
-    - images/products/sets/set1.jpeg
-    - images/products/sets/set2.jpeg
-    - images/products/sets/set3.jpeg
-    - images/products/sets/set4.jpeg
-    - images/products/sets/set5.jpeg
-    - images/products/sets/set6.jpeg
-    - images/products/sets/set7.jpeg
-    - images/products/skirts/sk1.jpeg
-    - images/products/skirts/sk3.jpeg
-    - images/products/skirts/sk4.jpeg
-    - images/products/skirts/sk5.jpeg
-    - images/products/skirts/sk6.jpeg
-    - images/products/tops/tops1.jpeg
-    - images/products/tops/tops2.jpeg
-    - images/products/tops/tops3.jpeg
-    - images/products/tops/tops4.jpeg
-    - images/products/tops/tops5.jpeg
-    - images/products/tops/tops6.jpeg
-    - images/products/tops/tops7.jpeg
-    - images/products/tops/tops8.jpeg
-    - images/products/tops/tops9.jpeg
-    - images/products/tops/tops10.jpeg
-    - images/products/tops/tops11.jpeg
-    - images/products/tops/tops12.jpeg
-    - images/products/tops/tops13.jpeg
-    - images/products/tops/tops14.jpeg
-    - images/products/tops/tops15.jpeg
-    - images/products/tops/tops16.jpeg
-    - images/products/shoes/sh1.jpeg
-    - images/products/shoes/sh2.jpeg
+    - images/
+    - images/products/dress/
+    - images/products/pants/
+    - images/products/sets/
+    - images/products/skirts/
+    - images/products/tops/
+    - images/products/shoes/
 
   fonts:
     - family: Lato
@@ -111,17 +54,5 @@ flutter:
     - family: Anton
       fonts:
         - asset: fonts/Anton-Regular.ttf
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+
 
